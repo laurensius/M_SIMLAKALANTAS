@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_beranda"
+            android:icon="@drawable/ic_nav_home"
+            android:title="Beranda" />
+        <item
+            android:id="@+id/nav_form_pelaporan"
+            android:icon="@drawable/ic_nav_form_pelaporan"
+            android:title="Form Pelaporan" />
+        <item
+            android:id="@+id/nav_riwayat_laporan"
+            android:icon="@drawable/ic_nav_riwayat_pelaporan"
+            android:title="Riwayat Laporan" />
+        <item
+            android:id="@+id/nav_peta_sebaran_polsek"
+            android:icon="@drawable/ic_nav_peta_sebaran_polsek"
+            android:title="Peta Sebaran Polsek" />
+    </group>
+
+    <item android:title="Data Diri">
+        <menu>
+            <item
+                android:id="@+id/nav_profil"
+                android:icon="@drawable/ic_nav_profil"
+                android:title="Profil" />
+            <item
+                android:id="@+id/nav_ubah_kata_sandi"
+                android:icon="@drawable/ic_nav_ubah_kata_sandi"
+                android:title="Ubah Kata Sandi" />
+            <item
+                android:id="@+id/nav_keluar"
+                android:icon="@drawable/ic_nav_keluar"
+                android:title="Keluar" />
+        </menu>
+    </item>
+
+</menu>
