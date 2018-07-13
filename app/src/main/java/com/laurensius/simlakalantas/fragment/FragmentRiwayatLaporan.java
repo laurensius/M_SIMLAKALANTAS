@@ -83,6 +83,7 @@ public class FragmentRiwayatLaporan extends Fragment {
                 Toast.makeText(getActivity(),incident.getDescription(),Toast.LENGTH_LONG).show();
                 Intent i = new Intent(getActivity(), IncidentDetail.class);
                 i.putExtra(getResources().getString(R.string.intent_str_id),String.valueOf(incident.getId()) );
+                i.putExtra(getResources().getString(R.string.intent_str_type),getResources().getString(R.string.intent_str_pelapor));
                 startActivity(i);
             }
         }));

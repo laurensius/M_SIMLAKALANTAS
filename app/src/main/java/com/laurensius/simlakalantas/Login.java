@@ -3,8 +3,10 @@ package com.laurensius.simlakalantas;
 import com.laurensius.simlakalantas.appcontroller.AppController;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -137,12 +139,10 @@ public class Login extends AppCompatActivity {
                 editorPreferences.commit();
                 if(Boolean.valueOf(data.getJSONObject(0).getString(getResources().getString(R.string.json_tag_is_officer)))){
                     Intent i = new Intent(Login.this, AppOfficer.class);
-                    i.putExtra(getResources().getString(R.string.tag_extra_nav_beranda),getResources().getString(R.string.extra_nav_beranda));
                     startActivity(i);
                     finish();
                 }else{
                     Intent i = new Intent(Login.this, AppPelapor.class);
-                    i.putExtra(getResources().getString(R.string.tag_extra_nav_beranda),getResources().getString(R.string.extra_nav_beranda));
                     startActivity(i);
                     finish();
                 }
@@ -150,7 +150,7 @@ public class Login extends AppCompatActivity {
             if(severity.equals(getResources().getString(R.string.severity_warning))){
                 tvNotifikasi.setVisibility(View.VISIBLE);
                 tvNotifikasi.setText(message);
-                tvNotifikasi.setBackgroundColor(getResources().getColor(R.color.severityDanger));
+                tvNotifikasi.setBackgroundColor(getResources().getColor(R.color.severityWarning));
             }else
             if(severity.equals(getResources().getString(R.string.severity_danger))){
                 tvNotifikasi.setVisibility(View.VISIBLE);

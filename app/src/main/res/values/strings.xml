@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">SIMLAKALANTAS</string>
 
+    <string name="title_activity_app_pelapor">App Pelapor</string>
+    <string name="title_activity_app_officer">App Officer</string>
+    <string name="title_petunjuk_arah">Petunjuk Arah</string>
+
     <string name="titlebar_beranda">Beranda</string>
     <string name="titlebar_form_pelaporan">Form Pelaporan</string>
     <string name="titlebar_riwayat_laporan">Riwayat Laporan</string>
@@ -63,6 +67,9 @@
     <string name="param_no_text"></string>
 
     <string name="intent_str_id">id</string>
+    <string name="intent_str_type">type</string>
+    <string name="intent_str_officer">officer</string>
+    <string name="intent_str_pelapor">pelapor</string>
 
     <string name="stage_waiting">1</string>
     <string name="stage_process">2</string>
@@ -81,6 +88,10 @@
     <string name="endpoint_incident_select_by_station_stage">incident_select_by_station_stage/</string>
     <string name="endpoint_slash">/</string>
 
+    <string name="progress_cari_kantor_polisi_terdekat">Mencari kantor polisi terdekat . . .</string>
+    <string name="progress_mengirim_laporan">Mengirim laporan Anda ke </string>
+    <string name="progress_mengirim_jarak"> berjarak </string>
+    <string name="progress_mengirim_dari_lokasi_anda"> meter dari lokasi Anda.</string>
     <string name="progress_loading">Memuat . . .</string>
 
     <string name="tag_request_login">TAG REQUEST LOGIN</string>
@@ -130,10 +141,5 @@
     <string name="severity_success">success</string>
     <string name="severity_warning">warning</string>
     <string name="severity_danger">danger</string>
-
-    <string name="extra_nav_beranda">beranda</string>
-    <string name="tag_extra_nav_beranda">beranda</string>
-    <string name="title_activity_app_pelapor">App Pelapor</string>
-    <string name="title_activity_app_officer">AppOfficer</string>
 
 </resources>

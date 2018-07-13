@@ -245,7 +245,11 @@ public class FragmentFormPelaporan extends Fragment {
         String tag_req_incident_insert = getResources().getString(R.string.tag_request_incident_insert);
         String url = getResources().getString(R.string.url_api).concat(getResources().getString(R.string.endpoint_incident_insert));
         final ProgressDialog pDialog = new ProgressDialog(getActivity());
-        pDialog.setMessage(getResources().getString(R.string.progress_loading));
+        pDialog.setMessage(getResources().getString(R.string.progress_mengirim_laporan)
+                .concat(polisiTerdekat.getPs().getStationName())
+                .concat(getResources().getString(R.string.progress_mengirim_jarak))
+                .concat( String.valueOf(polisiTerdekat.getDistance()))
+                .concat(getResources().getString(R.string.progress_mengirim_dari_lokasi_anda)));
         pDialog.show();
         final Map<String, String> params = new HashMap<String, String>();
         params.put(getResources().getString(R.string.param_sender), sender);
@@ -288,7 +292,7 @@ public class FragmentFormPelaporan extends Fragment {
         String tag_req_station_list = getResources().getString(R.string.tag_request_station_list);
         String url = getResources().getString(R.string.url_api).concat(getResources().getString(R.string.endpoint_station_list));
         final ProgressDialog pDialog = new ProgressDialog(getActivity());
-        pDialog.setMessage(getResources().getString(R.string.progress_loading));
+        pDialog.setMessage(getResources().getString(R.string.progress_cari_kantor_polisi_terdekat));
         pDialog.show();
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {

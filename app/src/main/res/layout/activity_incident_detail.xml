@@ -1,242 +1,277 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".IncidentDetail">
 
+    <!--NO CONTENT-->
     <LinearLayout
-        android:id="@+id/ll_wrapper"
+        android:id="@+id/ll_no_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/ll_load_failed"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        android:background="#FFFFFF"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/iv_no_content"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="48dp"
+            android:src="@drawable/icon_add_photo"/>
+        <TextView
+            android:id="@+id/tv_no_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="gone">
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_load_success"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_margin="5dp"
-                android:padding="16dp"
-                android:weightSum="3"
-                android:background="#FFFFFF">
-                <ImageView
-                    android:id="@+id/iv_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/icon_add_photo"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_margin="5dp"
-                android:padding="16dp"
-                android:weightSum="3"
-                android:background="#FFFFFF">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Deskripsi"
-                    android:textSize="7pt"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:id="@+id/tv_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Deskripsi"
-                    android:textSize="6pt"
-                    android:textStyle="italic"
-                    android:layout_marginBottom="10dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Waktu Kirim"
-                    android:textSize="7pt"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:id="@+id/tv_received_at"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Waktu Kirim"
-                    android:textSize="6pt"
-                    android:textStyle="italic"
-                    android:layout_marginBottom="10dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Latitude"
-                    android:textSize="7pt"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:id="@+id/tv_latitude"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Latitude"
-                    android:textSize="6pt"
-                    android:textStyle="italic"
-                    android:layout_marginBottom="10dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Longitude"
-                    android:textSize="7pt"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:id="@+id/tv_longitude"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Longitude"
-                    android:textSize="6pt"
-                    android:textStyle="italic"
-                    android:layout_marginBottom="10dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_margin="5dp"
-                android:padding="16dp"
-                android:weightSum="3"
-                android:background="#FFFFFF">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Pengirim Laporan"
-                    android:textSize="7pt"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:id="@+id/tv_sender"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Pengirim"
-                    android:textSize="6pt"
-                    android:textStyle="italic"
-                    android:layout_marginBottom="10dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Alamat Pengirim"
-                    android:textSize="7pt"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:id="@+id/tv_sender_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Alamat pengirim"
-                    android:textSize="6pt"
-                    android:textStyle="italic"
-                    android:layout_marginBottom="10dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Telepon"
-                    android:textSize="7pt"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:id="@+id/tv_phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="0232 353453"
-                    android:textSize="6pt"
-                    android:textStyle="italic"
-                    android:layout_marginBottom="10dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_margin="5dp"
-                android:padding="16dp"
-                android:weightSum="3"
-                android:background="#FFFFFF">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Status Laporan"
-                    android:textSize="7pt"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:id="@+id/tv_stage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Status Laporan"
-                    android:textSize="6pt"
-                    android:textStyle="italic"
-                    android:layout_marginBottom="10dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Terakhir diproses pada"
-                    android:textSize="7pt"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:id="@+id/tv_stage_datetime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="0000-00-00 00:00:00"
-                    android:textSize="6pt"
-                    android:textStyle="italic"
-                    android:layout_marginBottom="10dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_margin="5dp"
-                android:padding="16dp"
-                android:weightSum="3"
-                android:background="#FFFFFF">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Diproses di "
-                    android:textSize="7pt"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:id="@+id/tv_station"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Nama Polsek"
-                    android:textSize="6pt"
-                    android:textStyle="italic"
-                    android:layout_marginBottom="10dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Diproses oleh"
-                    android:textSize="7pt"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:id="@+id/tv_processed_by"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Nama officer"
-                    android:textSize="6pt"
-                    android:textStyle="italic"
-                    android:layout_marginBottom="10dp"/>
-            </LinearLayout>
-
-
-        </LinearLayout>
-
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:text="P E S A N"
+            android:layout_marginTop="24dp"/>
     </LinearLayout>
 
-</ScrollView>
+    <!--WITH CONTENT-->
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="5dp"
+                    android:padding="16dp"
+                    android:weightSum="3"
+                    android:background="#FFFFFF">
+                    <ImageView
+                        android:id="@+id/iv_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_add_photo"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="5dp"
+                    android:padding="16dp"
+                    android:weightSum="3"
+                    android:background="#FFFFFF">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Deskripsi"
+                        android:textSize="7pt"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/tv_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Deskripsi"
+                        android:textSize="6pt"
+                        android:textStyle="italic"
+                        android:layout_marginBottom="10dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Waktu Kirim"
+                        android:textSize="7pt"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/tv_received_at"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Waktu Kirim"
+                        android:textSize="6pt"
+                        android:textStyle="italic"
+                        android:layout_marginBottom="10dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Latitude"
+                        android:textSize="7pt"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/tv_latitude"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Latitude"
+                        android:textSize="6pt"
+                        android:textStyle="italic"
+                        android:layout_marginBottom="10dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Longitude"
+                        android:textSize="7pt"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/tv_longitude"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Longitude"
+                        android:textSize="6pt"
+                        android:textStyle="italic"
+                        android:layout_marginBottom="10dp"/>
+                    <Button
+                        android:id="@+id/btn_petunjuk_arah"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Petunjuk Arah"
+                        android:textColor="#FFFFFF"
+                        android:background="@color/colorPrimaryDark"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="5dp"
+                    android:padding="16dp"
+                    android:weightSum="3"
+                    android:background="#FFFFFF">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Pengirim Laporan"
+                        android:textSize="7pt"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/tv_sender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Pengirim"
+                        android:textSize="6pt"
+                        android:textStyle="italic"
+                        android:layout_marginBottom="10dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Alamat Pengirim"
+                        android:textSize="7pt"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/tv_sender_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Alamat pengirim"
+                        android:textSize="6pt"
+                        android:textStyle="italic"
+                        android:layout_marginBottom="10dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Telepon"
+                        android:textSize="7pt"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/tv_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0232 353453"
+                        android:textSize="6pt"
+                        android:textStyle="italic"
+                        android:layout_marginBottom="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="5dp"
+                    android:padding="16dp"
+                    android:weightSum="3"
+                    android:background="#FFFFFF">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Status Laporan"
+                        android:textSize="7pt"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/tv_stage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Status Laporan"
+                        android:textSize="6pt"
+                        android:textStyle="italic"
+                        android:layout_marginBottom="10dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Terakhir diproses pada"
+                        android:textSize="7pt"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/tv_stage_datetime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0000-00-00 00:00:00"
+                        android:textSize="6pt"
+                        android:textStyle="italic"
+                        android:layout_marginBottom="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="5dp"
+                    android:padding="16dp"
+                    android:weightSum="3"
+                    android:background="#FFFFFF">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Diproses di "
+                        android:textSize="7pt"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/tv_station"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nama Polsek"
+                        android:textSize="6pt"
+                        android:textStyle="italic"
+                        android:layout_marginBottom="10dp"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Diproses oleh"
+                        android:textSize="7pt"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/tv_processed_by"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Nama officer"
+                        android:textSize="6pt"
+                        android:textStyle="italic"
+                        android:layout_marginBottom="10dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+
+
+
+
+
+</LinearLayout>

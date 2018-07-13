@@ -9,10 +9,10 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -30,8 +30,10 @@ import org.json.JSONObject;
 
 public class IncidentDetail extends AppCompatActivity {
 
-    private LinearLayout llWraper, llLoadFailed, llLoadSuccess;
+    private LinearLayout llContent,llNoContent;
+    private ImageView ivNoContent;
     private ImageView ivImage;
+    private TextView tvNoContent;
     private TextView tvDescription;
     private TextView tvReceivedAt;
     private TextView tvLatitude;
@@ -43,14 +45,22 @@ public class IncidentDetail extends AppCompatActivity {
     private TextView tvStageDatetime;
     private TextView tvStation;
     private TextView tvProcessedBy;
+    private Button btnPetunjukArah;
+
+    public static Incident laporanInsiden;
+    private User senderUser;
+    private User officerUser;
+    public static PoliceStation policeStation;
+    private Stage laporanStage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_incident_detail);
-        llWraper = (LinearLayout)findViewById(R.id.ll_wrapper) ;
-        llLoadFailed = (LinearLayout)findViewById(R.id.ll_load_failed) ;
-        llLoadSuccess = (LinearLayout)findViewById(R.id.ll_load_success) ;
+        llContent = (LinearLayout)findViewById(R.id.ll_content) ;
+        llNoContent = (LinearLayout)findViewById(R.id.ll_no_content) ;
+        ivNoContent = (ImageView)findViewById(R.id.iv_no_content);
+        tvNoContent = (TextView)findViewById(R.id.tv_no_content);
         ivImage = (ImageView)findViewById(R.id.iv_image);
         tvDescription = (TextView)findViewById(R.id.tv_description);
         tvReceivedAt = (TextView)findViewById(R.id.tv_received_at);
@@ -63,11 +73,28 @@ public class IncidentDetail extends AppCompatActivity {
         tvStageDatetime  = (TextView)findViewById(R.id.tv_stage_datetime);
         tvStation = (TextView)findViewById(R.id.tv_station);
         tvProcessedBy = (TextView)findViewById(R.id.tv_processed_by);
-        llLoadSuccess.setVisibility(View.VISIBLE);
-        llLoadFailed.setVisibility(View.GONE);
+        btnPetunjukArah = (Button)findViewById(R.id.btn_petunjuk_arah);
+        llContent.setVisibility(View.VISIBLE);
+        llNoContent.setVisibility(View.GONE);
         Intent i = getIntent();
         String id = i.getStringExtra(getResources().getString(R.string.intent_str_id));
+        String type = i.getStringExtra(getResources().getString(R.string.intent_str_type));
         loadIncidentDetailFull(id);
+
+        if(type.equals(getResources().getString(R.string.intent_str_officer))){
+            btnPetunjukArah.setVisibility(View.VISIBLE);
+            btnPetunjukArah.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(IncidentDetail.this,DirectionMap.class);
+                    startActivity(intent);
+                }
+            });
+        }else{
+            btnPetunjukArah.setVisibility(View.GONE);
+        }
+
+
     }
 
     @Override
@@ -95,7 +122,10 @@ public class IncidentDetail extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         pDialog.dismiss();
-                        Toast.makeText(IncidentDetail.this,getResources().getString(R.string.notif_error_connection),Toast.LENGTH_LONG).show();
+                        llNoContent.setVisibility(View.VISIBLE);
+                        llContent.setVisibility(View.GONE);
+                        ivNoContent.setImageResource(R.drawable.ic_volley_error);
+                        tvNoContent.setText(getResources().getString(R.string.notif_error_connection));
                     }
                 });
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_req_incident_detail_full);
@@ -113,7 +143,7 @@ public class IncidentDetail extends AppCompatActivity {
                     JSONArray stage = data.getJSONArray(getResources().getString(R.string.json_tag_stage));
                     JSONArray station = data.getJSONArray(getResources().getString(R.string.json_tag_station));
                     if(incident.length() > 0){
-                        Incident laporanInsiden = new Incident(
+                        laporanInsiden = new Incident(
                                 Integer.parseInt(incident.getJSONObject(0).getString(getResources().getString(R.string.json_tag_id))),
                                 Integer.parseInt(incident.getJSONObject(0).getString(getResources().getString(R.string.json_tag_sender))),
                                 incident.getJSONObject(0).getString(getResources().getString(R.string.json_tag_image)),
@@ -126,7 +156,7 @@ public class IncidentDetail extends AppCompatActivity {
                                 Integer.parseInt(incident.getJSONObject(0).getString(getResources().getString(R.string.json_tag_processed_by))),
                                 Integer.parseInt(incident.getJSONObject(0).getString(getResources().getString(R.string.json_tag_station)))
                         );
-                        User senderUser = new User(
+                        senderUser = new User(
                                 Integer.parseInt(sender.getJSONObject(0).getString(getResources().getString(R.string.json_tag_id))),
                                 sender.getJSONObject(0).getString(getResources().getString(R.string.json_tag_username)),
                                 sender.getJSONObject(0).getString(getResources().getString(R.string.json_tag_password)),
@@ -138,7 +168,7 @@ public class IncidentDetail extends AppCompatActivity {
                                 Integer.parseInt(sender.getJSONObject(0).getString(getResources().getString(R.string.json_tag_station))),
                                 sender.getJSONObject(0).getString(getResources().getString(R.string.json_tag_last_login))
                         ) ;
-                        User officerUser = new User(
+                        officerUser = new User(
                                 Integer.parseInt(officer.getJSONObject(0).getString(getResources().getString(R.string.json_tag_id))),
                                 officer.getJSONObject(0).getString(getResources().getString(R.string.json_tag_username)),
                                 officer.getJSONObject(0).getString(getResources().getString(R.string.json_tag_password)),
@@ -150,14 +180,14 @@ public class IncidentDetail extends AppCompatActivity {
                                 Integer.parseInt(officer.getJSONObject(0).getString(getResources().getString(R.string.json_tag_station))),
                                 officer.getJSONObject(0).getString(getResources().getString(R.string.json_tag_last_login))
                         );
-                        PoliceStation policeStation = new PoliceStation(
+                        policeStation = new PoliceStation(
                                 Integer.parseInt(station.getJSONObject(0).getString(getResources().getString(R.string.json_tag_id))),
                                 station.getJSONObject(0).getString(getResources().getString(R.string.json_tag_nama_kantor)),
                                 Double.valueOf(station.getJSONObject(0).getString(getResources().getString(R.string.json_tag_latitude))),
                                 Double.valueOf(station.getJSONObject(0).getString(getResources().getString(R.string.json_tag_longitue))),
                                 station.getJSONObject(0).getString(getResources().getString(R.string.json_tag_address)) 
                         );
-                        Stage laporanStage = new Stage(
+                        laporanStage = new Stage(
                                 Integer.parseInt(stage.getJSONObject(0).getString(getResources().getString(R.string.json_tag_id))),
                                 stage.getJSONObject(0).getString(getResources().getString(R.string.json_tag_stage))
                         );
@@ -178,11 +208,29 @@ public class IncidentDetail extends AppCompatActivity {
                         Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
                         ivImage.setImageBitmap(decodedImage);
                         ivImage.setAdjustViewBounds(true);
+                    }else{
+                        llNoContent.setVisibility(View.VISIBLE);
+                        llContent.setVisibility(View.GONE);
+                        ivNoContent.setImageResource(R.drawable.ic_content_no_data);
+                        tvNoContent.setText(getResources().getString(R.string.notif_content_no_data));
                     }
+                }else{
+                    llNoContent.setVisibility(View.VISIBLE);
+                    llContent.setVisibility(View.GONE);
+                    ivNoContent.setImageResource(R.drawable.ic_json_parse_error);
+                    tvNoContent.setText(getResources().getString(R.string.notif_error_json_response));
                 }
+            }else{
+                llNoContent.setVisibility(View.VISIBLE);
+                llContent.setVisibility(View.GONE);
+                ivNoContent.setImageResource(R.drawable.ic_json_parse_error);
+                tvNoContent.setText(getResources().getString(R.string.notif_error_json_response));
             }
         }catch(JSONException e){
-            Log.d("JSON error :",  e.getMessage());
+            llNoContent.setVisibility(View.VISIBLE);
+            llContent.setVisibility(View.GONE);
+            ivNoContent.setImageResource(R.drawable.ic_json_parse_error);
+            tvNoContent.setText(getResources().getString(R.string.notif_error_json_response));
         }
     }
 

@@ -46,6 +46,7 @@ public class FragmentLaporanOfficer extends Fragment {
     private LinearLayout llContent, llNoContent;
     private ImageView ivNoContent;
     private TextView tvNoContent;
+    private String stage = AppOfficer.stage;
 
     public FragmentLaporanOfficer() {}
 
@@ -83,6 +84,7 @@ public class FragmentLaporanOfficer extends Fragment {
                 Toast.makeText(getActivity(),incident.getDescription(),Toast.LENGTH_LONG).show();
                 Intent i = new Intent(getActivity(), IncidentDetail.class);
                 i.putExtra(getResources().getString(R.string.intent_str_id),String.valueOf(incident.getId()) );
+                i.putExtra(getResources().getString(R.string.intent_str_type),getResources().getString(R.string.intent_str_officer));
                 startActivity(i);
             }
         }));
@@ -105,7 +107,7 @@ public class FragmentLaporanOfficer extends Fragment {
                 .concat(getResources().getString(R.string.endpoint_incident_select_by_station_stage))
                 .concat(String.valueOf(AppOfficer.userOfficer.getId()))
                 .concat(getResources().getString(R.string.endpoint_slash))
-                .concat(AppOfficer.stage)
+                .concat(stage)
                 .concat(getResources().getString(R.string.endpoint_slash));
         final ProgressDialog pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage(getResources().getString(R.string.progress_loading));

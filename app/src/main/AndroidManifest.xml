@@ -39,7 +39,11 @@
         <activity
             android:name=".AppOfficer"
             android:label="@string/title_activity_app_officer"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DirectionMap"
+            android:label="@string/title_petunjuk_arah"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
