@@ -2,8 +2,11 @@ package com.laurensius.simlakalantas;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -170,6 +173,11 @@ public class IncidentDetail extends AppCompatActivity {
                         tvStageDatetime.setText(laporanInsiden.getLastStageDatetime());
                         tvStation.setText(policeStation.getStationName());
                         tvProcessedBy.setText(officerUser.getFull_name());
+
+                        byte[] imageBytes = Base64.decode(laporanInsiden.getImage(), Base64.DEFAULT);
+                        Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                        ivImage.setImageBitmap(decodedImage);
+                        ivImage.setAdjustViewBounds(true);
                     }
                 }
             }

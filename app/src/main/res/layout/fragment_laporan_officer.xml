@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragment.FragmentRiwayatLaporan">
+    tools:context=".fragment.FragmentLaporanOfficer">
 
     <!--NO CONTENT-->
     <LinearLayout
@@ -48,7 +48,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp">
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_riwayat_laporan"
+                    android:id="@+id/rv_laporan_officer"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scrollbars="vertical" />

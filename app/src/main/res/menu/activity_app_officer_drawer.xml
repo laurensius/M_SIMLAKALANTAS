@@ -9,17 +9,17 @@
             android:icon="@drawable/ic_nav_home"
             android:title="Beranda" />
         <item
-            android:id="@+id/nav_form_pelaporan"
-            android:icon="@drawable/ic_nav_form_pelaporan"
-            android:title="Form Pelaporan" />
+            android:id="@+id/nav_laporan_masuk"
+            android:icon="@drawable/ic_nav_laporan_masuk"
+            android:title="Laporan Masuk" />
+        <item
+            android:id="@+id/nav_laporan_proses"
+            android:icon="@drawable/ic_nav_laporan_proses"
+            android:title="Laporan Dalam Proses" />
         <item
             android:id="@+id/nav_riwayat_laporan"
-            android:icon="@drawable/ic_nav_riwayat_pelaporan"
+            android:icon="@drawable/ic_nav_riwayat_laporan"
             android:title="Riwayat Laporan" />
-        <item
-            android:id="@+id/nav_peta_sebaran_polsek"
-            android:icon="@drawable/ic_nav_peta_sebaran_polsek"
-            android:title="Peta Sebaran Polsek" />
         <item
             android:id="@+id/nav_pemberitahuan"
             android:icon="@drawable/ic_nav_pemberitahuan"

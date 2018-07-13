@@ -58,9 +58,9 @@ public class Login extends AppCompatActivity {
                 JSONArray jsonArray = new JSONArray(sharedpref_data_user);
                 String is_officer = jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_is_officer));
                 if(Boolean.parseBoolean(is_officer)){
-//                Intent i = new Intent(Login.this,AppOfficer.class);
-//                startActivity(i);
-//                finish();
+                    Intent i = new Intent(Login.this,AppOfficer.class);
+                    startActivity(i);
+                    finish();
                 }else{
                     Intent i = new Intent(Login.this,AppPelapor.class);
                     startActivity(i);
@@ -135,10 +135,17 @@ public class Login extends AppCompatActivity {
             if(severity.equals(getResources().getString(R.string.severity_success))){
                 editorPreferences.putString(getResources().getString(R.string.sharedpref_data_user),data.toString());
                 editorPreferences.commit();
-                Intent i = new Intent(Login.this, AppPelapor.class);
-                i.putExtra(getResources().getString(R.string.tag_extra_nav_beranda),getResources().getString(R.string.extra_nav_beranda));
-                startActivity(i);
-                finish();
+                if(Boolean.valueOf(data.getJSONObject(0).getString(getResources().getString(R.string.json_tag_is_officer)))){
+                    Intent i = new Intent(Login.this, AppOfficer.class);
+                    i.putExtra(getResources().getString(R.string.tag_extra_nav_beranda),getResources().getString(R.string.extra_nav_beranda));
+                    startActivity(i);
+                    finish();
+                }else{
+                    Intent i = new Intent(Login.this, AppPelapor.class);
+                    i.putExtra(getResources().getString(R.string.tag_extra_nav_beranda),getResources().getString(R.string.extra_nav_beranda));
+                    startActivity(i);
+                    finish();
+                }
             }else
             if(severity.equals(getResources().getString(R.string.severity_warning))){
                 tvNotifikasi.setVisibility(View.VISIBLE);

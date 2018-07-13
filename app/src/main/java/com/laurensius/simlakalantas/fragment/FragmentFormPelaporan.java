@@ -58,7 +58,6 @@ public class FragmentFormPelaporan extends Fragment {
     private FW polisiTerdekat;
 
     private Boolean is_taked = false;
-    private Boolean kalkulasi = false;
     private String image;
 
     private static String IMAGE_DIRECTORY;
@@ -265,7 +264,7 @@ public class FragmentFormPelaporan extends Fragment {
                         try{
                             if(response.getString(getResources().getString(R.string.json_tag_severity)).equals(getResources().getString(R.string.severity_success))){
                                 etKeterangan.setText("");
-                                ivFoto.setImageResource(R.drawable.ic_menu_camera);
+                                ivFoto.setImageResource(R.drawable.icon_add_photo);
                             }
                             Toast.makeText(getActivity(),response.getString(getResources().getString(R.string.json_tag_message)),Toast.LENGTH_LONG).show();
                         }catch (JSONException e){

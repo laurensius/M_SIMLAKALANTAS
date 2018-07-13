@@ -8,6 +8,8 @@
     <string name="titlebar_profil">Profil</string>
     <string name="titlebar_ubah_kata_sandi">Ubah Kata Sandi</string>
     <string name="titlebar_pemberitahuan">Pemberitahuan</string>
+    <string name="titlebar_laporan_masuk">Laporan Masuk</string>
+    <string name="titlebar_laporan_proses">Laporan Dalam Proses</string>
 
     <string name="image_dir">/SIMLAKALANTAS</string>
     <string name="image_selector_title">Opsi Lampiran</string>
@@ -62,6 +64,9 @@
 
     <string name="intent_str_id">id</string>
 
+    <string name="stage_waiting">1</string>
+    <string name="stage_process">2</string>
+    <string name="stage_finish">3</string>
 
     <string name="marker_current_loc">Posisi Anda di sini</string>
     <string name="marker_police_station">Kantor Polisi</string>
@@ -73,6 +78,8 @@
     <string name="endpoint_incident_insert">incident_insert/</string>
     <string name="endpoint_incident_select_by_sender">incident_select_by_sender/</string>
     <string name="endpoint_incident_detail_full">incident_detail_full/</string>
+    <string name="endpoint_incident_select_by_station_stage">incident_select_by_station_stage/</string>
+    <string name="endpoint_slash">/</string>
 
     <string name="progress_loading">Memuat . . .</string>
 
@@ -81,11 +88,12 @@
     <string name="tag_request_incident_insert">TAG REQUEST INCIDENT REQUEST</string>
     <string name="tag_request_incident_by_sender">TAG REQUEST INCIDENT BY SENDER</string>
     <string name="tag_request_incident_detail_full">TAG REQUEST INCIDENT DETAIL FULL</string>
+    <string name="tag_request_incident_by_station_stage">TAG REQUEST INCIDENT BY STATION STAGE</string>
 
     <string name="notif_login_form_not_blank">Nama Pengguna dan Kata Sandi harus diisi.</string>
     <string name="notif_error_connection">Terjadi gangguan saat terhubung ke server. Coba beberapa saat lagi.</string>
-    <string name="notif_error_json_response">Terjadi gangguan saat menerima response dari server</string>
-
+    <string name="notif_error_json_response">Terjadi gangguan saat menerima response dari server.</string>
+    <string name="notif_content_no_data">Belum ada ada pada menu ini.</string>
 
     <!--Global Redudance-->
     <string name="json_tag_severity">severity</string>
@@ -119,7 +127,6 @@
     <string name="json_tag_officer">officer</string>
     <string name="json_tag_stage">stage</string>
 
-
     <string name="severity_success">success</string>
     <string name="severity_warning">warning</string>
     <string name="severity_danger">danger</string>
@@ -127,6 +134,6 @@
     <string name="extra_nav_beranda">beranda</string>
     <string name="tag_extra_nav_beranda">beranda</string>
     <string name="title_activity_app_pelapor">App Pelapor</string>
-
+    <string name="title_activity_app_officer">AppOfficer</string>
 
 </resources>

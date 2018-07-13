@@ -5,11 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".AppPelapor"
-    tools:showIn="@layout/app_bar_app_pelapor">
+    tools:context=".AppOfficer"
+    tools:showIn="@layout/app_bar_app_officer">
+
 
     <FrameLayout
-        android:id="@+id/fl_pelapor"
+        android:id="@+id/fl_officer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

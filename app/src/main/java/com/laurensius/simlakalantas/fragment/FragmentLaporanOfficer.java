@@ -21,7 +21,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.laurensius.simlakalantas.AppPelapor;
+import com.laurensius.simlakalantas.AppOfficer;
 import com.laurensius.simlakalantas.IncidentDetail;
 import com.laurensius.simlakalantas.R;
 import com.laurensius.simlakalantas.adapter.AdapterIncident;
@@ -36,9 +36,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentRiwayatLaporan extends Fragment {
+public class FragmentLaporanOfficer extends Fragment {
 
-    private RecyclerView rvRiwayatLaporan;
+    private RecyclerView rvLaporanOfficer;
     private AdapterIncident adapterIncident = null;
     RecyclerView.LayoutManager mLayoutManager;
     List<Incident> listIncident = new ArrayList<>();
@@ -47,7 +47,7 @@ public class FragmentRiwayatLaporan extends Fragment {
     private ImageView ivNoContent;
     private TextView tvNoContent;
 
-    public FragmentRiwayatLaporan() {}
+    public FragmentLaporanOfficer() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,26 +57,26 @@ public class FragmentRiwayatLaporan extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View inflaterRiwayatLaporan = inflater.inflate(R.layout.fragment_riwayat_laporan, container, false);
-        llNoContent = (LinearLayout)inflaterRiwayatLaporan.findViewById(R.id.ll_no_content);
-        ivNoContent = (ImageView)inflaterRiwayatLaporan.findViewById(R.id.iv_no_content);
-        tvNoContent = (TextView)inflaterRiwayatLaporan.findViewById(R.id.tv_no_content);
-        llContent = (LinearLayout)inflaterRiwayatLaporan.findViewById(R.id.ll_content);
-        rvRiwayatLaporan = (RecyclerView)inflaterRiwayatLaporan.findViewById( R.id.rv_riwayat_laporan);
-        return inflaterRiwayatLaporan;
+        final View inflaterLaporanOfficer = inflater.inflate(R.layout.fragment_laporan_officer, container, false);
+        llNoContent = (LinearLayout)inflaterLaporanOfficer.findViewById(R.id.ll_no_content);
+        ivNoContent = (ImageView)inflaterLaporanOfficer.findViewById(R.id.iv_no_content);
+        tvNoContent = (TextView)inflaterLaporanOfficer.findViewById(R.id.tv_no_content);
+        llContent = (LinearLayout)inflaterLaporanOfficer.findViewById(R.id.ll_content);
+        rvLaporanOfficer = (RecyclerView)inflaterLaporanOfficer.findViewById(R.id.rv_laporan_officer);
+        return inflaterLaporanOfficer;
     }
 
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         llNoContent.setVisibility(View.GONE);
         llContent.setVisibility(View.VISIBLE);
-        rvRiwayatLaporan.setHasFixedSize(true);
+        rvLaporanOfficer.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
-        rvRiwayatLaporan.setLayoutManager(mLayoutManager);
+        rvLaporanOfficer.setLayoutManager(mLayoutManager);
         adapterIncident = new AdapterIncident(listIncident);
         adapterIncident.notifyDataSetChanged();
-        rvRiwayatLaporan.setAdapter(adapterIncident);
-        rvRiwayatLaporan.addOnItemTouchListener(new IncidentListener(getActivity(), new IncidentListener.OnItemClickListener() {
+        rvLaporanOfficer.setAdapter(adapterIncident);
+        rvLaporanOfficer.addOnItemTouchListener(new IncidentListener(getActivity(), new IncidentListener.OnItemClickListener() {
             @Override
             public void onItemClick(View childVew, int childAdapterPosition) {
                 Incident incident = adapterIncident.getItem(childAdapterPosition);
@@ -86,7 +86,7 @@ public class FragmentRiwayatLaporan extends Fragment {
                 startActivity(i);
             }
         }));
-        loadRiwayatLaporan();
+        loadLaporanOfficer();
     }
 
     @Override
@@ -99,9 +99,14 @@ public class FragmentRiwayatLaporan extends Fragment {
         super.onDetach();
     }
 
-    public void loadRiwayatLaporan(){
-        String tag_req_incident_select_by_sender = getResources().getString(R.string.tag_request_incident_by_sender);
-        String url = getResources().getString(R.string.url_api).concat(getResources().getString(R.string.endpoint_incident_select_by_sender)).concat(String.valueOf(AppPelapor.userPelapor.getId())).concat("/");
+    public void loadLaporanOfficer(){
+        String tag_req_incident_select_by_station_stage = getResources().getString(R.string.tag_request_incident_by_station_stage);
+        String url = getResources().getString(R.string.url_api)
+                .concat(getResources().getString(R.string.endpoint_incident_select_by_station_stage))
+                .concat(String.valueOf(AppOfficer.userOfficer.getId()))
+                .concat(getResources().getString(R.string.endpoint_slash))
+                .concat(AppOfficer.stage)
+                .concat(getResources().getString(R.string.endpoint_slash));
         final ProgressDialog pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage(getResources().getString(R.string.progress_loading));
         pDialog.show();
@@ -122,9 +127,10 @@ public class FragmentRiwayatLaporan extends Fragment {
                         llContent.setVisibility(View.GONE);
                         ivNoContent.setImageResource(R.drawable.ic_volley_error);
                         tvNoContent.setText(getResources().getString(R.string.notif_error_connection));
+                        //Log.d(getResources().getString(R.string.notif_error_json_response), error.getMessage().toString());
                     }
                 });
-        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_req_incident_select_by_sender);
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_req_incident_select_by_station_stage);
     }
 
     void parseData(JSONObject jsonObject){
@@ -134,6 +140,8 @@ public class FragmentRiwayatLaporan extends Fragment {
                 if(severity.equals(getResources().getString(R.string.severity_success))){
                     JSONArray data = jsonObject.getJSONArray(getResources().getString(R.string.json_tag_data));
                     if(data.length() > 0){
+                        llNoContent.setVisibility(View.GONE);
+                        llContent.setVisibility(View.VISIBLE);
                         for (int x=0;x<data.length();x++){
                             listIncident.add(new Incident(
                                     Integer.parseInt(data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_id))),
@@ -175,4 +183,5 @@ public class FragmentRiwayatLaporan extends Fragment {
         }
         adapterIncident.notifyDataSetChanged();
     }
+
 }

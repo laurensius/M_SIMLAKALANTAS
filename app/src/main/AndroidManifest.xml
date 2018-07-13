@@ -34,7 +34,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".IncidentDetail"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"></activity>
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".AppOfficer"
+            android:label="@string/title_activity_app_officer"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -17,26 +17,24 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.laurensius.simlakalantas.fragment.FragmentFormPelaporan;
+import com.laurensius.simlakalantas.fragment.FragmentLaporanOfficer;
 import com.laurensius.simlakalantas.fragment.FragmentPelaporBeranda;
-import com.laurensius.simlakalantas.fragment.FragmentPetaSebaranPolsek;
-import com.laurensius.simlakalantas.fragment.FragmentRiwayatLaporan;
 import com.laurensius.simlakalantas.model.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class AppPelapor extends AppCompatActivity
+public class AppOfficer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     SharedPreferences sharedPreferences;
@@ -51,12 +49,18 @@ public class AppPelapor extends AppCompatActivity
     public static double lat;
     public static double lon;
 
-    public static User userPelapor;
+    public static User userOfficer;
+
+    private String waiting;
+    private String onprocess;
+    private String finish;
+
+    public static String stage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_app_pelapor);
+        setContentView(R.layout.activity_app_officer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -73,7 +77,7 @@ public class AppPelapor extends AppCompatActivity
 
         getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_beranda));
         FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
-        tx.replace(R.id.fl_pelapor, new FragmentPelaporBeranda());
+        tx.replace(R.id.fl_officer, new FragmentPelaporBeranda());
         tx.commit();
 
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.sharedpreferences), 0);
@@ -82,7 +86,7 @@ public class AppPelapor extends AppCompatActivity
         if(sharedpref_data_user != null){
             try{
                 JSONArray jsonArray = new JSONArray(sharedpref_data_user);
-                userPelapor = new User(
+                userOfficer = new User(
                         Integer.parseInt(jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_id))),
                         jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_username)),
                         jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_password)),
@@ -128,8 +132,11 @@ public class AppPelapor extends AppCompatActivity
         };
         configureGPS();
         configureStorage();
-    }
 
+        waiting = getResources().getString(R.string.stage_waiting);
+        onprocess = getResources().getString(R.string.stage_process);
+        finish = getResources().getString(R.string.stage_finish);
+    }
 
     @Override
     public void onBackPressed() {
@@ -157,7 +164,7 @@ public class AppPelapor extends AppCompatActivity
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,@NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case 10:
                 configureGPS();
@@ -169,7 +176,7 @@ public class AppPelapor extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.app_pelapor, menu);
+        getMenuInflater().inflate(R.menu.app_officer, menu);
         return true;
     }
 
@@ -185,37 +192,38 @@ public class AppPelapor extends AppCompatActivity
         jalankanFragment(item.getItemId());
         return true;
     }
-
     public void jalankanFragment(int id) {
         fragment = null;
         if (id == R.id.nav_beranda) {
             fragment = new FragmentPelaporBeranda();
             getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_beranda));
-        } else if (id == R.id.nav_form_pelaporan) {
-            fragment = new FragmentFormPelaporan();
-            getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_form_pelaporan));
+        } else if (id == R.id.nav_laporan_masuk) {
+            stage = waiting;
+            fragment = new FragmentLaporanOfficer();
+            getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_laporan_masuk));
+        } else if (id == R.id.nav_laporan_proses) {
+            stage = onprocess;
+            fragment = new FragmentLaporanOfficer();
+            getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_laporan_proses));
         } else if (id == R.id.nav_riwayat_laporan) {
-            fragment = new FragmentRiwayatLaporan();
+            stage = finish;
+            fragment = new FragmentLaporanOfficer();
             getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_riwayat_laporan));
-        } else if (id == R.id.nav_peta_sebaran_polsek) {
-            fragment = new FragmentPetaSebaranPolsek();
-            getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_peta_sebaran_polsek));
         } else if (id == R.id.nav_pemberitahuan) {
-            //fragment = new FragmentRiwayatLaporan();
             getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_pemberitahuan));
         } else if (id == R.id.nav_keluar) {
             SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getResources().getString(R.string.sharedpreferences), 0);
             SharedPreferences.Editor editorPreferences = sharedPreferences.edit();
             editorPreferences.clear();
             editorPreferences.commit();
-            Intent i = new Intent(AppPelapor.this, Login.class);
+            Intent i = new Intent(AppOfficer.this, Login.class);
             startActivity(i);
             finish();
         }
 
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.fl_pelapor, fragment);
+            ft.replace(R.id.fl_officer, fragment);
             ft.commit();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -265,3 +273,4 @@ public class AppPelapor extends AppCompatActivity
         return dialBox;
     }
 }
+
