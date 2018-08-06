@@ -26,9 +26,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.laurensius.simlakalantas.fragment.FragmentLaporanOfficer;
-import com.laurensius.simlakalantas.fragment.FragmentPelaporBeranda;
+import com.laurensius.simlakalantas.fragment.FragmentOfficer;
+import com.laurensius.simlakalantas.fragment.FragmentPelapor;
+import com.laurensius.simlakalantas.fragment.FragmentPemberitahuan;
+import com.laurensius.simlakalantas.fragment.FragmentProfil;
 import com.laurensius.simlakalantas.model.User;
 
 import org.json.JSONArray;
@@ -77,7 +82,7 @@ public class AppOfficer extends AppCompatActivity
 
         getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_beranda));
         FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
-        tx.replace(R.id.fl_officer, new FragmentPelaporBeranda());
+        tx.replace(R.id.fl_officer, new FragmentOfficer());
         tx.commit();
 
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.sharedpreferences), 0);
@@ -101,6 +106,12 @@ public class AppOfficer extends AppCompatActivity
 
             }
         }
+
+        View header = navigationView.getHeaderView(0);
+        TextView tvHeaderUsername = (TextView)header.findViewById(R.id.tv_header_username);
+        TextView tvHeaderEmail = (TextView)header.findViewById(R.id.tv_header_email);
+        tvHeaderUsername.setText(userOfficer.getFull_name());
+        tvHeaderEmail.setText(userOfficer.getEmail());
 
         dialBox = createDialogBox();
 
@@ -195,7 +206,7 @@ public class AppOfficer extends AppCompatActivity
     public void jalankanFragment(int id) {
         fragment = null;
         if (id == R.id.nav_beranda) {
-            fragment = new FragmentPelaporBeranda();
+            fragment = new FragmentOfficer();
             getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_beranda));
         } else if (id == R.id.nav_laporan_masuk) {
             stage = waiting;
@@ -210,8 +221,13 @@ public class AppOfficer extends AppCompatActivity
             fragment = new FragmentLaporanOfficer();
             getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_riwayat_laporan));
         } else if (id == R.id.nav_pemberitahuan) {
+            fragment = new FragmentPemberitahuan();
             getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_pemberitahuan));
+        } else if (id == R.id.nav_profil) {
+            fragment = new FragmentProfil();
+            getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_profil));
         } else if (id == R.id.nav_keluar) {
+            stopService(new Intent(getBaseContext(), ServiceNotification.class));
             SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getResources().getString(R.string.sharedpreferences), 0);
             SharedPreferences.Editor editorPreferences = sharedPreferences.edit();
             editorPreferences.clear();

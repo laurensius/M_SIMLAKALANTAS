@@ -33,11 +33,30 @@ public class AdapterIncident extends RecyclerView.Adapter<AdapterIncident.Holder
     public void onBindViewHolder(HolderIncident holderIncident,int i){
         byte[] imageBytes = Base64.decode(listIncident.get(i).getImage(), Base64.DEFAULT);
         Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-        //image.setImageBitmap(decodedImage);
+        String status_laporan = null;
+        String deskripsi = null;
+        if(listIncident.get(i).getLastStage() == 1){
+            status_laporan = "Status laporan : menunggu respon";
+        }else
+        if(listIncident.get(i).getLastStage() == 2){
+            status_laporan = "Status laporan : dalam proses";
+        }else
+        if(listIncident.get(i).getLastStage() == 3){
+            status_laporan = "Status laporan : selesai";
+        }
+
+        if(listIncident.get(i).getDescription().length() > 60){
+            for(int x=0;x<57;x++){
+                deskripsi += listIncident.get(i).getDescription().charAt(x);
+            }
+            deskripsi += "...";
+        }else{
+            deskripsi = listIncident.get(i).getDescription();
+        }
         holderIncident.ivImage.setImageBitmap(decodedImage);
         holderIncident.tvReceivedAt.setText(listIncident.get(i).getReceivedAt());
-        holderIncident.tvDescription.setText(listIncident.get(i).getDescription());
-        holderIncident.tvLastStage.setText(String.valueOf(listIncident.get(i).getLastStage()));
+        holderIncident.tvDescription.setText(deskripsi);
+        holderIncident.tvLastStage.setText(status_laporan);
     }
 
     @Override

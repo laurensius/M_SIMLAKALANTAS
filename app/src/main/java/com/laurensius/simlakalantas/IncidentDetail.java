@@ -1,9 +1,11 @@
 package com.laurensius.simlakalantas;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -46,6 +49,7 @@ public class IncidentDetail extends AppCompatActivity {
     private TextView tvStation;
     private TextView tvProcessedBy;
     private Button btnPetunjukArah;
+    private Button btnProses;
 
     public static Incident laporanInsiden;
     private User senderUser;
@@ -74,6 +78,7 @@ public class IncidentDetail extends AppCompatActivity {
         tvStation = (TextView)findViewById(R.id.tv_station);
         tvProcessedBy = (TextView)findViewById(R.id.tv_processed_by);
         btnPetunjukArah = (Button)findViewById(R.id.btn_petunjuk_arah);
+        btnProses = (Button)findViewById(R.id.btn_proses);
         llContent.setVisibility(View.VISIBLE);
         llNoContent.setVisibility(View.GONE);
         Intent i = getIntent();
@@ -90,10 +95,17 @@ public class IncidentDetail extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+            btnProses.setVisibility(View.VISIBLE);
+            btnProses.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showActionDialog();
+                }
+            });
         }else{
             btnPetunjukArah.setVisibility(View.GONE);
+            btnProses.setVisibility(View.GONE);
         }
-
 
     }
 
@@ -101,6 +113,64 @@ public class IncidentDetail extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    private void showActionDialog(){
+        AlertDialog.Builder actionDialog = new AlertDialog.Builder(IncidentDetail.this);
+        actionDialog.setTitle(getResources().getString(R.string.image_selector_title));
+        String[] actionDialogItems = {
+                getResources().getString(R.string.action_selector_waiting),
+                getResources().getString(R.string.action_selector_process),
+                getResources().getString(R.string.action_selector_finish), };
+        actionDialog.setItems(actionDialogItems,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        officerUser.getId();
+                        laporanInsiden.getId();
+                        switch (which) {
+                            case 0:
+                                new AlertDialog.Builder(IncidentDetail.this)
+                                    .setTitle("Konfirmasi")
+                                    .setMessage("Apakah Anda akan mengubah status menjadi \"Menunggu Respon\"?")
+                                    .setIcon(android.R.drawable.ic_menu_help)
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            updateStage(laporanInsiden.getId(), 1,officerUser.getId());
+                                        }})
+                                    .setNegativeButton(android.R.string.no, null).show();
+                                break;
+                            case 1:
+                                new AlertDialog.Builder(IncidentDetail.this)
+                                    .setTitle("Konfirmasi")
+                                    .setMessage("Apakah Anda akan mengubah status menjadi \"Dalam Proses\"?")
+                                    .setIcon(android.R.drawable.ic_menu_help)
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            updateStage(laporanInsiden.getId(), 2,officerUser.getId());
+                                        }})
+                                    .setNegativeButton(android.R.string.no, null).show();
+                                break;
+                            case 2:
+                                new AlertDialog.Builder(IncidentDetail.this)
+                                    .setTitle("Konfirmasi")
+                                    .setMessage("Apakah Anda akan mengubah status menjadi \"Selesai\"?")
+                                    .setIcon(android.R.drawable.ic_menu_help)
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                        //      if($this->input->post('incident') == null &&
+                                        //		$this->input->post('chronology') == null &&
+                                        //		$this->input->post('accident_victim') == null &&
+                                        //		$this->input->post('damage') == null &&
+                                        //		$this->input->post('action') == null)
+                                            updateStage(laporanInsiden.getId(), 3,officerUser.getId());
+                                        }})
+                                    .setNegativeButton(android.R.string.no, null).show();
+                                break;
+                        }
+                    }
+                });
+        actionDialog.show();
     }
 
     public void loadIncidentDetailFull(String id){
@@ -124,7 +194,72 @@ public class IncidentDetail extends AppCompatActivity {
                         pDialog.dismiss();
                         llNoContent.setVisibility(View.VISIBLE);
                         llContent.setVisibility(View.GONE);
-                        ivNoContent.setImageResource(R.drawable.ic_volley_error);
+                        ivNoContent.setImageResource(R.mipmap.img_volley_err);
+                        tvNoContent.setText(getResources().getString(R.string.notif_error_connection));
+                    }
+                });
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_req_incident_detail_full);
+    }
+
+    public void updateStage(final int incidentId, final int newStage, int officerId){
+        String tag_req_incident_detail_full= getResources().getString(R.string.tag_request_incident_detail_full);
+        String url = getResources().getString(R.string.url_api)
+                .concat(getResources().getString(R.string.endpoint_incident_update_stage))
+                .concat(getResources().getString(R.string.endpoint_slash))
+                .concat(String.valueOf(incidentId))
+                .concat(getResources().getString(R.string.endpoint_slash))
+                .concat(String.valueOf(newStage))
+                .concat(getResources().getString(R.string.endpoint_slash))
+                .concat(String.valueOf(officerId))
+                .concat(getResources().getString(R.string.endpoint_slash));
+        final ProgressDialog pDialog = new ProgressDialog(IncidentDetail.this);
+        pDialog.setMessage(getResources().getString(R.string.progress_loading));
+        pDialog.show();
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        pDialog.dismiss();
+                        Log.d(getResources().getString(R.string.debug_http_response), response.toString());
+                        try {
+                            if (response != null) {
+                                String severity = response.getString(getResources().getString(R.string.json_tag_severity));
+                                if (severity.equals(getResources().getString(R.string.severity_success))) {
+                                    Toast.makeText(getApplicationContext(),response.getString(getResources().getString(R.string.json_tag_message)),Toast.LENGTH_LONG).show();
+                                    loadIncidentDetailFull(String.valueOf(incidentId));
+                                    if(newStage==3){
+                                        Intent i = new Intent(getApplicationContext(),FinalReport.class);
+                                        i.putExtra(getResources().getString(R.string.intent_str_id),incidentId);
+                                        startActivity(i);
+                                    }
+                                }else{
+                                    llNoContent.setVisibility(View.VISIBLE);
+                                    llContent.setVisibility(View.GONE);
+                                    ivNoContent.setImageResource(R.mipmap.img_volley_err);
+                                    tvNoContent.setText(response.getString(getResources().getString(R.string.json_tag_message)));
+                                }
+                            }else{
+                                llNoContent.setVisibility(View.VISIBLE);
+                                llContent.setVisibility(View.GONE);
+                                ivNoContent.setImageResource(R.mipmap.img_json_parse_err);
+                                tvNoContent.setText(getResources().getString(R.string.notif_error_json_response));
+                            }
+                        }catch(JSONException e){
+                            llNoContent.setVisibility(View.VISIBLE);
+                            llContent.setVisibility(View.GONE);
+                            ivNoContent.setImageResource(R.mipmap.img_json_parse_err);
+                            tvNoContent.setText(getResources().getString(R.string.notif_error_json_response));
+                            Log.d(getResources().getString(R.string.notif_error_json_response), e.getMessage());
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        pDialog.dismiss();
+                        llNoContent.setVisibility(View.VISIBLE);
+                        llContent.setVisibility(View.GONE);
+                        ivNoContent.setImageResource(R.mipmap.img_volley_err);
                         tvNoContent.setText(getResources().getString(R.string.notif_error_connection));
                     }
                 });
@@ -204,6 +339,10 @@ public class IncidentDetail extends AppCompatActivity {
                         tvStation.setText(policeStation.getStationName());
                         tvProcessedBy.setText(officerUser.getFull_name());
 
+                        if(laporanInsiden.getLastStage() > 2){
+                            btnProses.setVisibility(View.GONE);
+                        }
+
                         byte[] imageBytes = Base64.decode(laporanInsiden.getImage(), Base64.DEFAULT);
                         Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
                         ivImage.setImageBitmap(decodedImage);
@@ -211,28 +350,28 @@ public class IncidentDetail extends AppCompatActivity {
                     }else{
                         llNoContent.setVisibility(View.VISIBLE);
                         llContent.setVisibility(View.GONE);
-                        ivNoContent.setImageResource(R.drawable.ic_content_no_data);
+                        ivNoContent.setImageResource(R.mipmap.img_no_data);
                         tvNoContent.setText(getResources().getString(R.string.notif_content_no_data));
                     }
                 }else{
                     llNoContent.setVisibility(View.VISIBLE);
                     llContent.setVisibility(View.GONE);
-                    ivNoContent.setImageResource(R.drawable.ic_json_parse_error);
+                    ivNoContent.setImageResource(R.mipmap.img_json_parse_err);
                     tvNoContent.setText(getResources().getString(R.string.notif_error_json_response));
                 }
             }else{
                 llNoContent.setVisibility(View.VISIBLE);
                 llContent.setVisibility(View.GONE);
-                ivNoContent.setImageResource(R.drawable.ic_json_parse_error);
+                ivNoContent.setImageResource(R.mipmap.img_json_parse_err);
                 tvNoContent.setText(getResources().getString(R.string.notif_error_json_response));
             }
         }catch(JSONException e){
             llNoContent.setVisibility(View.VISIBLE);
             llContent.setVisibility(View.GONE);
-            ivNoContent.setImageResource(R.drawable.ic_json_parse_error);
+            ivNoContent.setImageResource(R.mipmap.img_json_parse_err);
             tvNoContent.setText(getResources().getString(R.string.notif_error_json_response));
+            Log.d(getResources().getString(R.string.notif_error_json_response), e.getMessage());
         }
     }
-
 
 }

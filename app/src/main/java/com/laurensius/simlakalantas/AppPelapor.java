@@ -26,10 +26,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.laurensius.simlakalantas.fragment.FragmentFormPelaporan;
-import com.laurensius.simlakalantas.fragment.FragmentPelaporBeranda;
+import com.laurensius.simlakalantas.fragment.FragmentPelapor;
+import com.laurensius.simlakalantas.fragment.FragmentPemberitahuan;
 import com.laurensius.simlakalantas.fragment.FragmentPetaSebaranPolsek;
+import com.laurensius.simlakalantas.fragment.FragmentProfil;
 import com.laurensius.simlakalantas.fragment.FragmentRiwayatLaporan;
 import com.laurensius.simlakalantas.model.User;
 
@@ -42,7 +46,7 @@ public class AppPelapor extends AppCompatActivity
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editorPreferences;
 
-    private Fragment fragment;
+    public Fragment fragment;
     private Dialog dialBox;
 
     private LocationManager locationManager;
@@ -73,7 +77,7 @@ public class AppPelapor extends AppCompatActivity
 
         getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_beranda));
         FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
-        tx.replace(R.id.fl_pelapor, new FragmentPelaporBeranda());
+        tx.replace(R.id.fl_pelapor, new FragmentPelapor());
         tx.commit();
 
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.sharedpreferences), 0);
@@ -97,6 +101,12 @@ public class AppPelapor extends AppCompatActivity
 
             }
         }
+
+        View header = navigationView.getHeaderView(0);
+        TextView tvHeaderUsername = (TextView)header.findViewById(R.id.tv_header_username);
+        TextView tvHeaderEmail = (TextView)header.findViewById(R.id.tv_header_email);
+        tvHeaderUsername.setText(userPelapor.getFull_name());
+        tvHeaderEmail.setText(userPelapor.getEmail());
 
         dialBox = createDialogBox();
 
@@ -189,7 +199,7 @@ public class AppPelapor extends AppCompatActivity
     public void jalankanFragment(int id) {
         fragment = null;
         if (id == R.id.nav_beranda) {
-            fragment = new FragmentPelaporBeranda();
+            fragment = new FragmentPelapor();
             getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_beranda));
         } else if (id == R.id.nav_form_pelaporan) {
             fragment = new FragmentFormPelaporan();
@@ -201,9 +211,13 @@ public class AppPelapor extends AppCompatActivity
             fragment = new FragmentPetaSebaranPolsek();
             getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_peta_sebaran_polsek));
         } else if (id == R.id.nav_pemberitahuan) {
-            //fragment = new FragmentRiwayatLaporan();
+            fragment = new FragmentPemberitahuan();
             getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_pemberitahuan));
+        } else if (id == R.id.nav_profil) {
+            fragment = new FragmentProfil();
+            getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_profil));
         } else if (id == R.id.nav_keluar) {
+            stopService(new Intent(getBaseContext(), ServiceNotification.class));
             SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getResources().getString(R.string.sharedpreferences), 0);
             SharedPreferences.Editor editorPreferences = sharedPreferences.edit();
             editorPreferences.clear();

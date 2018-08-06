@@ -225,6 +225,13 @@
                         android:textSize="6pt"
                         android:textStyle="italic"
                         android:layout_marginBottom="10dp"/>
+                    <Button
+                        android:id="@+id/btn_proses"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tekan untuk proses"
+                        android:textColor="#FFFFFF"
+                        android:background="@color/colorPrimaryDark"/>
                 </LinearLayout>
 
                 <LinearLayout

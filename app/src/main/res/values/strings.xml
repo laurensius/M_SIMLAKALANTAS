@@ -23,6 +23,12 @@
     <string name="image_mime_jpg">image/jpeg</string>
     <string name="image_camera_data">data</string>
 
+    <string name="defaultpass">inipass</string>
+
+    <string name="action_selector_waiting">Daftar Tunggu</string>
+    <string name="action_selector_process">Proses</string>
+    <string name="action_selector_finish">Selesai</string>
+
     <string name="toast_save_image_success">Gambar tersimpan ke folder</string>
     <string name="toast_save_image_failed">Gambar gagal disimpan</string>
     <string name="toast_form_report_not_complete">Silakan lampirkan gambar/foto beserta keterangannya</string>
@@ -64,7 +70,16 @@
     <string name="param_latitude">latitude</string>
     <string name="param_longitude">longitude</string>
     <string name="param_station">station</string>
+    <string name="param_full_name">full_name</string>
+    <string name="param_address">address</string>
+    <string name="param_phone">phone</string>
+    <string name="param_email">email</string>
     <string name="param_no_text"></string>
+    <string name="param_incident">incident</string>
+    <string name="param_chronology">chronology</string>
+    <string name="param_accident_victim">accident_victim</string>
+    <string name="param_damage">damage</string>
+    <string name="param_action">action</string>
 
     <string name="intent_str_id">id</string>
     <string name="intent_str_type">type</string>
@@ -78,14 +93,20 @@
     <string name="marker_current_loc">Posisi Anda di sini</string>
     <string name="marker_police_station">Kantor Polisi</string>
 
-    <string name="url_api">http://192.168.0.102/simlakalantas/index.php/api/</string>
+    <string name="url_api">http://192.168.0.103/simlakalantas/index.php/api/</string>
+    <!--<string name="url_api">http://192.168.100.210/simlakalantas/index.php/api/</string>-->
     <string name="endpoint_verifikasi">verifikasi/</string>
+    <string name="endpoint_user_register">user_register/</string>
     <string name="endpoint_station_list">station_list/</string>
     <string name="endpoint_station_detail">station_detail/</string>
     <string name="endpoint_incident_insert">incident_insert/</string>
     <string name="endpoint_incident_select_by_sender">incident_select_by_sender/</string>
     <string name="endpoint_incident_detail_full">incident_detail_full/</string>
     <string name="endpoint_incident_select_by_station_stage">incident_select_by_station_stage/</string>
+    <string name="endpoint_incident_update_stage">incident_update_stage/</string>
+    <string name="endpoint_notif_select_recent">notif_select_recent/</string>
+    <string name="endpoint_profil_update">profil_update/</string>
+    <string name="endpoint_report_insert">report_insert/</string>
     <string name="endpoint_slash">/</string>
 
     <string name="progress_cari_kantor_polisi_terdekat">Mencari kantor polisi terdekat . . .</string>
@@ -100,11 +121,13 @@
     <string name="tag_request_incident_by_sender">TAG REQUEST INCIDENT BY SENDER</string>
     <string name="tag_request_incident_detail_full">TAG REQUEST INCIDENT DETAIL FULL</string>
     <string name="tag_request_incident_by_station_stage">TAG REQUEST INCIDENT BY STATION STAGE</string>
+    <string name="tag_request_update_profil">TAG REQUEST UPDATE PROFIL</string>
+    <string name="tag_request_f_report_insert">TAG REQUEST F_REPORT INSERT</string>
 
-    <string name="notif_login_form_not_blank">Nama Pengguna dan Kata Sandi harus diisi.</string>
+    <string name="notif_login_form_not_blank">Silakan isi bidang yang masih kosong.</string>
     <string name="notif_error_connection">Terjadi gangguan saat terhubung ke server. Coba beberapa saat lagi.</string>
     <string name="notif_error_json_response">Terjadi gangguan saat menerima response dari server.</string>
-    <string name="notif_content_no_data">Belum ada ada pada menu ini.</string>
+    <string name="notif_content_no_data">Belum ada data pada menu ini.</string>
 
     <!--Global Redudance-->
     <string name="json_tag_severity">severity</string>
@@ -137,6 +160,10 @@
     <string name="json_tag_incident">incident</string>
     <string name="json_tag_officer">officer</string>
     <string name="json_tag_stage">stage</string>
+    <!--notif-->
+    <string name="json_tag_aim">aim</string>
+    <string name="json_tag_content">content</string>
+    <string name="json_tag_datetime">datetime</string>
 
     <string name="severity_success">success</string>
     <string name="severity_warning">warning</string>

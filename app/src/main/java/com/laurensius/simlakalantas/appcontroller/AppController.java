@@ -1,16 +1,13 @@
 package com.laurensius.simlakalantas.appcontroller;
 
+import com.laurensius.simlakalantas.utilities.LruBitmapCache;
 
-import android.app.AlertDialog;
 import android.app.Application;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.text.TextUtils;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
-import com.laurensius.simlakalantas.utilities.LruBitmapCache;
 
 
 public class AppController extends Application {

@@ -14,9 +14,9 @@
     <application
         android:name=".appcontroller.AppController"
         android:allowBackup="true"
-        android:icon="@drawable/icon_logo"
+        android:icon="@mipmap/img_login"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/icon_logo"
+        android:roundIcon="@mipmap/img_login"
         android:supportsRtl="true">
         <activity
             android:name=".Login"
@@ -24,13 +24,12 @@
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".AppPelapor"
-            android:label="@string/title_activity_app_pelapor"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".IncidentDetail"
@@ -38,12 +37,24 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".AppOfficer"
-            android:label="@string/title_activity_app_officer"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".DirectionMap"
             android:label="@string/title_petunjuk_arah"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Register"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".FinalReport"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme" />
+        <service
+            android:name=".ServiceNotification"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

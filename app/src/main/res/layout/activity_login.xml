@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@mipmap/bg2"
     tools:context=".Login">
 
     <LinearLayout
@@ -19,7 +19,7 @@
             android:layout_height="96dp"
             android:layout_marginTop="48dp"
             android:layout_marginBottom="48dp"
-            android:src="@drawable/icon_logo"
+            android:src="@mipmap/img_login"
             android:layout_gravity="center"/>
 
         <TextView
@@ -27,20 +27,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:visibility="gone"
+            android:visibility="visible"
+            android:textAlignment="center"
+            android:background="@color/severitySuccess"
+            android:layout_marginBottom="10dp"
+            android:text="Selamat datang"
             android:textColor="#FFFFFF"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
-            android:padding="5dp"
             android:orientation="horizontal"
             android:layout_marginBottom="5dp"
             android:gravity="bottom">
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="48dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="center_vertical"
                 android:src="@drawable/icon_user"/>
             <EditText
                 android:id="@+id/et_namapengguna"
@@ -56,13 +62,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
-            android:padding="5dp"
             android:orientation="horizontal"
             android:layout_marginBottom="10dp"
             android:gravity="bottom">
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="48dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="center_vertical"
                 android:src="@drawable/icon_password"/>
             <EditText
                 android:id="@+id/et_katasandi"

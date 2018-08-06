@@ -92,7 +92,6 @@ public class FragmentFormPelaporan extends Fragment {
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         IMAGE_DIRECTORY = getResources().getString(R.string.image_dir);
-        ivFoto.setAdjustViewBounds(true);
         ivFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,7 +101,15 @@ public class FragmentFormPelaporan extends Fragment {
         btnKirim.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validateKirimLaporan();
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("Konfirmasi")
+                        .setMessage("Apakah Anda akan mengirim laporan?")
+                        .setIcon(android.R.drawable.ic_menu_help)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                validateKirimLaporan();
+                            }})
+                        .setNegativeButton(android.R.string.no, null).show();
             }
         });
 
@@ -112,8 +119,6 @@ public class FragmentFormPelaporan extends Fragment {
                 runOnUiThread(new Runnable(){
                     @Override
                     public void run() {
-                        Log.d(getResources().getString(R.string.debug_lat), String.valueOf(AppPelapor.lat));
-                        Log.d(getResources().getString(R.string.debug_lon), String.valueOf(AppPelapor.lon));
                         recent_lat = AppPelapor.lat;
                         recent_lon = AppPelapor.lon;
                         etLatitude.setText(String.valueOf(recent_lat));
@@ -182,7 +187,7 @@ public class FragmentFormPelaporan extends Fragment {
                 Uri contentURI = data.getData();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), contentURI);
-                    String path = saveImage(bitmap);
+                    saveImage(bitmap);
                     Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.toast_save_image_success), Toast.LENGTH_SHORT).show();
                     ivFoto.setImageBitmap(bitmap);
                     is_taked = true;
@@ -268,6 +273,7 @@ public class FragmentFormPelaporan extends Fragment {
                         try{
                             if(response.getString(getResources().getString(R.string.json_tag_severity)).equals(getResources().getString(R.string.severity_success))){
                                 etKeterangan.setText("");
+                                ivFoto.setAdjustViewBounds(false);
                                 ivFoto.setImageResource(R.drawable.icon_add_photo);
                             }
                             Toast.makeText(getActivity(),response.getString(getResources().getString(R.string.json_tag_message)),Toast.LENGTH_LONG).show();

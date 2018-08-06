@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.FragmentFormPelaporan">
+    tools:context=".FinalReport">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,62 +40,76 @@
             android:padding="16dp"
             android:background="#FFFFFF">
 
-            <ImageView
-                android:id="@+id/iv_foto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:background="#EEEEEE"
-                android:src="@drawable/icon_add_photo"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_weight="2"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-                    <EditText
-                        android:id="@+id/et_latitude"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Loading latitude"
-                        android:textSize="5pt"
-                        android:enabled="false"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-                    <EditText
-                        android:id="@+id/et_longitude"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Loading longitude"
-                        android:textSize="5pt"
-                        android:enabled="false"/>
-                </LinearLayout>
-            </LinearLayout>
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:textStyle="bold"
-                android:text="Keterangan : "/>
+                android:text="Kronologi : "/>
 
             <EditText
-                android:id="@+id/et_keterangan"
+                android:id="@+id/et_kronologi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lines="5"
                 android:background="#EEEEEE"
                 android:padding="5dp"
                 android:textSize="7pt"
-                android:hint="Deskripsi atau keterangan tambahan"
+                android:hint="Tuliskan kronologi terjadinya insiden secara lengkap"
+                android:gravity="top|left"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textStyle="bold"
+                android:text="Korban : "/>
+
+            <EditText
+                android:id="@+id/et_korban"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="5"
+                android:background="#EEEEEE"
+                android:padding="5dp"
+                android:textSize="7pt"
+                android:hint="Korban akibat insiden"
+                android:gravity="top|left"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textStyle="bold"
+                android:text="Kerusakan : "/>
+
+            <EditText
+                android:id="@+id/et_kerusakan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="5"
+                android:background="#EEEEEE"
+                android:padding="5dp"
+                android:textSize="7pt"
+                android:hint="Kerusakan / kerugain yang disebabkan oleh insiden"
+                android:gravity="top|left"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textStyle="bold"
+                android:text="Tindakan : "/>
+
+            <EditText
+                android:id="@+id/et_tindakan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="5"
+                android:background="#EEEEEE"
+                android:padding="5dp"
+                android:textSize="7pt"
+                android:hint="Tindakan yang sudah dilakukan"
                 android:gravity="top|left"/>
 
             <Button
@@ -103,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="Kirim"
+                android:text="Kirim Laporan ke POLRES"
                 android:textColor="#FFFFFF"
                 android:background="@color/colorPrimaryDark"/>
 

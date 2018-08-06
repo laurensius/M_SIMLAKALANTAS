@@ -1,12 +1,9 @@
 package com.laurensius.simlakalantas;
 
-import com.laurensius.simlakalantas.appcontroller.AppController;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +15,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.laurensius.simlakalantas.appcontroller.AppController;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,17 +25,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class Login extends AppCompatActivity {
+public class Register extends AppCompatActivity {
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editorPreferences;
-
-    private TextView tvDaftar, tvNotifikasi;
-    private EditText etNamaPengguna, etKataSandi;
-    private Button btnMasuk;
+    private TextView tvMasuk, tvNotifikasi;
+    private EditText etNamaPengguna, etKataSandi, etNamaLengkap, etAlamat, etTelepon, etEmail;
+    private Button btnDaftar;
 
     private String url_api;
-    private String endpoint_verfikasi;
+    private String endpoint_user_register;
 
     private String TAG;
     private String TAG_REQ_LOGIN;
@@ -45,55 +40,49 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
         url_api = getResources().getString(R.string.url_api);
-        endpoint_verfikasi = getResources().getString(R.string.endpoint_verifikasi);
+        endpoint_user_register = getResources().getString(R.string.endpoint_user_register);
         TAG = AppController.class.getSimpleName();
         TAG_REQ_LOGIN = getResources().getString(R.string.tag_request_login);
-        sharedPreferences = getSharedPreferences(getResources().getString(R.string.sharedpreferences), 0);
-        editorPreferences = sharedPreferences.edit();
-        String sharedpref_data_user = sharedPreferences.getString(getResources().getString(R.string.sharedpref_data_user),null);
-        if(sharedpref_data_user != null){
-            try{
-                JSONArray jsonArray = new JSONArray(sharedpref_data_user);
-                String is_officer = jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_is_officer));
-                if(Boolean.parseBoolean(is_officer)){
-                    Intent i = new Intent(Login.this,AppOfficer.class);
-                    startActivity(i);
-                    finish();
-                }else{
-                    Intent i = new Intent(Login.this,AppPelapor.class);
-                    startActivity(i);
-                    finish();
-                }
-            }catch (JSONException e){}
-        }
         etNamaPengguna = (EditText)findViewById(R.id.et_namapengguna);
         etKataSandi = (EditText)findViewById(R.id.et_katasandi);
-        btnMasuk = (Button)findViewById(R.id.btn_masuk);
-        tvDaftar = (TextView)findViewById(R.id.tv_daftar);
-        tvDaftar.setOnClickListener(new View.OnClickListener() {
+        etNamaLengkap = (EditText)findViewById(R.id.et_namalengkap);
+        etAlamat = (EditText)findViewById(R.id.et_alamat);
+        etTelepon = (EditText)findViewById(R.id.et_telepon);
+        etEmail = (EditText)findViewById(R.id.et_email);
+        btnDaftar = (Button)findViewById(R.id.btn_daftar);
+        tvMasuk = (TextView)findViewById(R.id.tv_masuk);
+        tvMasuk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Login.this,Register.class);
+                Intent i = new Intent(Register.this,Login.class);
                 startActivity(i);
                 finish();
             }
         });
         tvNotifikasi = (TextView) findViewById(R.id.tv_notifikasi);
-        btnMasuk.setOnClickListener(new View.OnClickListener() {
+        btnDaftar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String username = etNamaPengguna.getText().toString();
                 String password = etKataSandi.getText().toString();
-                validateLogin(username,password);
+                String full_name = etNamaLengkap.getText().toString();
+                String address = etAlamat.getText().toString();
+                String phone = etTelepon.getText().toString();
+                String email = etEmail.getText().toString();
+                validateRegister(username,password,full_name,address,phone,email);
             }
         });
     }
 
-    void validateLogin(String username, String password){
+    void validateRegister(String username, String password, String full_name, String address, String phone, String email){
         if(username.equals(getResources().getString(R.string.param_no_text)) ||
-        password.equals(getResources().getString(R.string.param_no_text))){
+        password.equals(getResources().getString(R.string.param_no_text)) ||
+        full_name.equals(getResources().getString(R.string.param_no_text)) ||
+        address.equals(getResources().getString(R.string.param_no_text)) ||
+        phone.equals(getResources().getString(R.string.param_no_text)) ||
+        email.equals(getResources().getString(R.string.param_no_text))){
             Toast.makeText(
                     getApplicationContext(),
                     getResources().getString(R.string.notif_login_form_not_blank),
@@ -102,25 +91,29 @@ public class Login extends AppCompatActivity {
             tvNotifikasi.setText(getResources().getString(R.string.notif_login_form_not_blank));
             tvNotifikasi.setBackgroundColor(getResources().getColor(R.color.severityWarning));
         }else{
-            loginProcess(username,password);
+            registerProcess(username,password,full_name,address,phone,email);
         }
     }
 
-    void loginProcess(String username,String password){
+    void registerProcess(String username, String password, String full_name, String address, String phone, String email){
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage(getResources().getString(R.string.progress_loading));
         pDialog.show();
         final Map<String, String> params = new HashMap<String, String>();
         params.put(getResources().getString(R.string.param_username), username);
         params.put(getResources().getString(R.string.param_password), password);
+        params.put(getResources().getString(R.string.param_full_name), full_name);
+        params.put(getResources().getString(R.string.param_address), address);
+        params.put(getResources().getString(R.string.param_phone), phone);
+        params.put(getResources().getString(R.string.param_email), email);
         JSONObject parameter = new JSONObject(params);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url_api.concat(endpoint_verfikasi), parameter,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url_api.concat(endpoint_user_register), parameter,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG,response.toString());
                         pDialog.dismiss();
-                        validateLoginResponse(response);
+                        validateRegisterResponse(response);
                     }
                 },
                 new Response.ErrorListener() {
@@ -135,7 +128,7 @@ public class Login extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, TAG_REQ_LOGIN);
     }
 
-    void validateLoginResponse(JSONObject jsonObject){
+    void validateRegisterResponse(JSONObject jsonObject){
         try{
             String severity = jsonObject.getString(getResources().getString(R.string.json_tag_severity));
             String message = jsonObject.getString(getResources().getString(R.string.json_tag_message));
@@ -144,18 +137,9 @@ public class Login extends AppCompatActivity {
                 tvNotifikasi.setVisibility(View.VISIBLE);
                 tvNotifikasi.setText(message);
                 tvNotifikasi.setBackgroundColor(getResources().getColor(R.color.severitySuccess));
-                editorPreferences.putString(getResources().getString(R.string.sharedpref_data_user),data.toString());
-                editorPreferences.commit();
-                startService(new Intent(getBaseContext(), ServiceNotification.class));
-                if(Boolean.valueOf(data.getJSONObject(0).getString(getResources().getString(R.string.json_tag_is_officer)))){
-                    Intent i = new Intent(Login.this, AppOfficer.class);
-                    startActivity(i);
-                    finish();
-                }else{
-                    Intent i = new Intent(Login.this, AppPelapor.class);
-                    startActivity(i);
-                    finish();
-                }
+                Intent i = new Intent(Register.this,Login.class);
+                startActivity(i);
+                finish();
             }else
             if(severity.equals(getResources().getString(R.string.severity_warning))){
                 tvNotifikasi.setVisibility(View.VISIBLE);

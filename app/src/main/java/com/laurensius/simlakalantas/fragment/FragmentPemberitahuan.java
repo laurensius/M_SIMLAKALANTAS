@@ -24,10 +24,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.laurensius.simlakalantas.AppPelapor;
 import com.laurensius.simlakalantas.IncidentDetail;
 import com.laurensius.simlakalantas.R;
-import com.laurensius.simlakalantas.adapter.AdapterIncident;
+import com.laurensius.simlakalantas.adapter.AdapterNotif;
 import com.laurensius.simlakalantas.appcontroller.AppController;
-import com.laurensius.simlakalantas.listener.IncidentListener;
-import com.laurensius.simlakalantas.model.Incident;
+import com.laurensius.simlakalantas.listener.NotifListener;
+import com.laurensius.simlakalantas.model.Notif;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,18 +36,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentRiwayatLaporan extends Fragment {
+public class FragmentPemberitahuan extends Fragment {
 
-    private RecyclerView rvRiwayatLaporan;
-    private AdapterIncident adapterIncident = null;
+    private RecyclerView rvNotif;
+    private AdapterNotif adapterNotif = null;
     RecyclerView.LayoutManager mLayoutManager;
-    List<Incident> listIncident = new ArrayList<>();
+    List<Notif> listNotif = new ArrayList<>();
 
     private LinearLayout llContent, llNoContent;
     private ImageView ivNoContent;
     private TextView tvNoContent;
-
-    public FragmentRiwayatLaporan() {}
+    
+    public FragmentPemberitahuan() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,37 +57,36 @@ public class FragmentRiwayatLaporan extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View inflaterRiwayatLaporan = inflater.inflate(R.layout.fragment_riwayat_laporan, container, false);
-        llNoContent = (LinearLayout)inflaterRiwayatLaporan.findViewById(R.id.ll_no_content);
-        ivNoContent = (ImageView)inflaterRiwayatLaporan.findViewById(R.id.iv_no_content);
-        tvNoContent = (TextView)inflaterRiwayatLaporan.findViewById(R.id.tv_no_content);
-        llContent = (LinearLayout)inflaterRiwayatLaporan.findViewById(R.id.ll_content);
-        rvRiwayatLaporan = (RecyclerView)inflaterRiwayatLaporan.findViewById( R.id.rv_riwayat_laporan);
-        return inflaterRiwayatLaporan;
+        final View inflaterPemberitahuan = inflater.inflate(R.layout.fragment_pemberitahuan, container, false);
+        llNoContent = (LinearLayout)inflaterPemberitahuan.findViewById(R.id.ll_no_content);
+        ivNoContent = (ImageView)inflaterPemberitahuan.findViewById(R.id.iv_no_content);
+        tvNoContent = (TextView)inflaterPemberitahuan.findViewById(R.id.tv_no_content);
+        llContent = (LinearLayout)inflaterPemberitahuan.findViewById(R.id.ll_content);
+        rvNotif = (RecyclerView)inflaterPemberitahuan.findViewById( R.id.rv_pemberitahuan);
+        return inflaterPemberitahuan ;
     }
 
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         llNoContent.setVisibility(View.GONE);
         llContent.setVisibility(View.VISIBLE);
-        rvRiwayatLaporan.setHasFixedSize(true);
+        rvNotif.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
-        rvRiwayatLaporan.setLayoutManager(mLayoutManager);
-        adapterIncident = new AdapterIncident(listIncident);
-        adapterIncident.notifyDataSetChanged();
-        rvRiwayatLaporan.setAdapter(adapterIncident);
-        rvRiwayatLaporan.addOnItemTouchListener(new IncidentListener(getActivity(), new IncidentListener.OnItemClickListener() {
+        rvNotif.setLayoutManager(mLayoutManager);
+        adapterNotif = new AdapterNotif(listNotif);
+        adapterNotif.notifyDataSetChanged();
+        rvNotif.setAdapter(adapterNotif);
+        rvNotif.addOnItemTouchListener(new NotifListener(getActivity(), new NotifListener.OnItemClickListener() {
             @Override
             public void onItemClick(View childVew, int childAdapterPosition) {
-                Incident incident = adapterIncident.getItem(childAdapterPosition);
-                Toast.makeText(getActivity(),incident.getDescription(),Toast.LENGTH_LONG).show();
+                Notif notif = adapterNotif.getItem(childAdapterPosition);
                 Intent i = new Intent(getActivity(), IncidentDetail.class);
-                i.putExtra(getResources().getString(R.string.intent_str_id),String.valueOf(incident.getId()) );
+                i.putExtra(getResources().getString(R.string.intent_str_id),String.valueOf(notif.getIncident()) );
                 i.putExtra(getResources().getString(R.string.intent_str_type),getResources().getString(R.string.intent_str_pelapor));
                 startActivity(i);
             }
         }));
-        loadRiwayatLaporan();
+        loadPemberitahuan();
     }
 
     @Override
@@ -100,9 +99,16 @@ public class FragmentRiwayatLaporan extends Fragment {
         super.onDetach();
     }
 
-    public void loadRiwayatLaporan(){
+    public void loadPemberitahuan(){
         String tag_req_incident_select_by_sender = getResources().getString(R.string.tag_request_incident_by_sender);
-        String url = getResources().getString(R.string.url_api).concat(getResources().getString(R.string.endpoint_incident_select_by_sender)).concat(String.valueOf(AppPelapor.userPelapor.getId())).concat("/");
+        String url = getResources().getString(R.string.url_api)
+                .concat(getResources().getString(R.string.endpoint_notif_select_recent))
+                .concat(getResources().getString(R.string.json_tag_aim))
+                .concat(getResources().getString(R.string.endpoint_slash))
+                .concat(String.valueOf(AppPelapor.userPelapor.getId()))
+                .concat(getResources().getString(R.string.endpoint_slash))
+                .concat(String.valueOf(20))
+                .concat(getResources().getString(R.string.endpoint_slash));
         final ProgressDialog pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage(getResources().getString(R.string.progress_loading));
         pDialog.show();
@@ -136,18 +142,14 @@ public class FragmentRiwayatLaporan extends Fragment {
                     JSONArray data = jsonObject.getJSONArray(getResources().getString(R.string.json_tag_data));
                     if(data.length() > 0){
                         for (int x=0;x<data.length();x++){
-                            listIncident.add(new Incident(
+                            listNotif.add(new Notif(
                                     Integer.parseInt(data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_id))),
-                                    Integer.parseInt(data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_sender))),
-                                    data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_image)),
-                                    data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_description)),
-                                    data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_latitude)),
-                                    data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_longitue)),
-                                    data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_received_at)),
-                                    Integer.parseInt(data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_last_stage))),
-                                    data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_last_stage_datetime)),
-                                    Integer.parseInt(data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_processed_by))),
-                                    Integer.parseInt(data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_station)))));
+                                    Integer.parseInt(data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_aim))),
+                                    Integer.parseInt(data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_incident))),
+                                    Integer.parseInt(data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_station))),
+                                    data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_content)),
+                                    data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_datetime))
+                                    ));
                         }
                     }else{
                         llNoContent.setVisibility(View.VISIBLE);
@@ -174,6 +176,7 @@ public class FragmentRiwayatLaporan extends Fragment {
             tvNoContent.setText(getResources().getString(R.string.notif_error_json_response));
             Log.d(getResources().getString(R.string.notif_error_json_response), e.getMessage());
         }
-        adapterIncident.notifyDataSetChanged();
+        adapterNotif.notifyDataSetChanged();
     }
+
 }

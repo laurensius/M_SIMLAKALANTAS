@@ -5,6 +5,6 @@
     <color name="colorAccent">#00AACC</color>
 
     <color name="severitySuccess">#00CC00</color>
-    <color name="severityWarning">#CCCC00</color>
+    <color name="severityWarning">#EEEE00</color>
     <color name="severityDanger">#CC0000</color>
 </resources>

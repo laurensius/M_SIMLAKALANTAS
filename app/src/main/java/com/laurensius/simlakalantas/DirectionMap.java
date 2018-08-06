@@ -1,12 +1,14 @@
 package com.laurensius.simlakalantas;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -17,13 +19,17 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 
 import org.osmdroid.api.IMapController;
+import org.osmdroid.bonuspack.routing.OSRMRoadManager;
+import org.osmdroid.bonuspack.routing.Road;
+import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 
-import java.util.Timer;
+import java.util.ArrayList;
 
 
 public class DirectionMap extends AppCompatActivity {
@@ -34,12 +40,17 @@ public class DirectionMap extends AppCompatActivity {
 
     private LocationManager locationManager;
     private LocationListener listener;
+    private RoadManager roadManager;
 
     public static double lat;
     public static double lon;
     Marker incidentMarker, stationMarker, userMarker;
 
-    Timer timer = new Timer();
+    ProgressDialog pDialog;
+    ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>();
+    GeoPoint startPoint, endPoint;
+    Polyline roadOverlay;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +73,6 @@ public class DirectionMap extends AppCompatActivity {
         stationMarker = new Marker(mvDirection);
         incidentMarker = new Marker(mvDirection);
         userMarker= new Marker(mvDirection);
-
 
         lat = 0.0;
         lon = 0.0;
@@ -93,15 +103,16 @@ public class DirectionMap extends AppCompatActivity {
                 startActivity(i);
             }
         };
-        configureGPS();
-        configureStorage();
 
         setCenter(IncidentDetail.policeStation.getLatitude() , IncidentDetail.policeStation.getLongitude());
-        setUserMarker(lat,lon);
         setStationMarker( IncidentDetail.policeStation.getLatitude() , IncidentDetail.policeStation.getLongitude());
         setIncidentMarker( Double.parseDouble(IncidentDetail.laporanInsiden.getLatitude()), Double.parseDouble( IncidentDetail.laporanInsiden.getLongitude()));
 
+        configureGPS();
+        configureStorage();
 
+
+        new AsyncDirection().execute();
     }
 
     void setCenter(double lat,double lon){
@@ -162,6 +173,41 @@ public class DirectionMap extends AppCompatActivity {
     void removeUserMarker(){
         mvDirection.getOverlays().remove(userMarker);
         mvDirection.invalidate();
+    }
+
+
+    private class AsyncDirection extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(DirectionMap.this);
+            pDialog.setMessage("Mohon menunggu...");
+            pDialog.setCancelable(false);
+            pDialog.show();
+            startPoint = new GeoPoint(IncidentDetail.policeStation.getLatitude() , IncidentDetail.policeStation.getLongitude());
+            endPoint = new GeoPoint( Double.parseDouble(IncidentDetail.laporanInsiden.getLatitude()), Double.parseDouble( IncidentDetail.laporanInsiden.getLongitude()));
+            waypoints.add(startPoint);
+            waypoints.add(endPoint);
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            Log.d("DO IN BG", "Do in background");
+            roadManager = new OSRMRoadManager(getApplicationContext());
+            Road road = roadManager.getRoad(waypoints);
+            roadOverlay = RoadManager.buildRoadOverlay(road);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if (pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
+            mvDirection.getOverlays().add(roadOverlay);
+            mvDirection.invalidate();
+        }
     }
 
     void configureGPS() {

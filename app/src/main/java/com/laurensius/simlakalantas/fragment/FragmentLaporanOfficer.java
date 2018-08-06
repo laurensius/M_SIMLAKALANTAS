@@ -127,7 +127,7 @@ public class FragmentLaporanOfficer extends Fragment {
                         pDialog.dismiss();
                         llNoContent.setVisibility(View.VISIBLE);
                         llContent.setVisibility(View.GONE);
-                        ivNoContent.setImageResource(R.drawable.ic_volley_error);
+                        ivNoContent.setImageResource(R.mipmap.img_volley_err);
                         tvNoContent.setText(getResources().getString(R.string.notif_error_connection));
                         //Log.d(getResources().getString(R.string.notif_error_json_response), error.getMessage().toString());
                     }
@@ -161,25 +161,25 @@ public class FragmentLaporanOfficer extends Fragment {
                     }else{
                         llNoContent.setVisibility(View.VISIBLE);
                         llContent.setVisibility(View.GONE);
-                        ivNoContent.setImageResource(R.drawable.ic_content_no_data);
+                        ivNoContent.setImageResource(R.mipmap.img_no_data);
                         tvNoContent.setText(getResources().getString(R.string.notif_content_no_data));
                     }
                 }else{
                     llNoContent.setVisibility(View.VISIBLE);
                     llContent.setVisibility(View.GONE);
-                    ivNoContent.setImageResource(R.drawable.ic_json_parse_error);
+                    ivNoContent.setImageResource(R.mipmap.img_json_parse_err);
                     tvNoContent.setText(getResources().getString(R.string.notif_error_json_response));
                 }
             }else{
                 llNoContent.setVisibility(View.VISIBLE);
                 llContent.setVisibility(View.GONE);
-                ivNoContent.setImageResource(R.drawable.ic_json_parse_error);
+                ivNoContent.setImageResource(R.mipmap.img_json_parse_err);
                 tvNoContent.setText(getResources().getString(R.string.notif_error_json_response));
             }
         }catch(JSONException e){
             llNoContent.setVisibility(View.VISIBLE);
             llContent.setVisibility(View.GONE);
-            ivNoContent.setImageResource(R.drawable.ic_json_parse_error);
+            ivNoContent.setImageResource(R.mipmap.img_json_parse_err);
             tvNoContent.setText(getResources().getString(R.string.notif_error_json_response));
             Log.d(getResources().getString(R.string.notif_error_json_response), e.getMessage());
         }
