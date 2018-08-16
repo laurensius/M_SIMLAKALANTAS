@@ -33,8 +33,10 @@
     <string name="toast_save_image_failed">Gambar gagal disimpan</string>
     <string name="toast_form_report_not_complete">Silakan lampirkan gambar/foto beserta keterangannya</string>
 
-    <string name="confirm_exit_title">Konfirmasi Keluar</string>
-    <string name="confirm_exit_body">Apakah Anda akan keluar dari aplikasi?</string>
+    <string name="confirm_logout_title">Konfirmasi Keluar Sesi</string>
+    <string name="confirm_logout_body">Apakah Anda akan keluar dari sesi pada aplikasi ini?</string>
+    <string name="confirm_exit_title">Konfirmasi Tutup Aplikasi</string>
+    <string name="confirm_exit_body">Apakah Anda akan menutup aplikasi?</string>
     <string name="confirm_ya">Ya</string>
     <string name="confirm_tidak">Tidak</string>
 
@@ -93,7 +95,7 @@
     <string name="marker_current_loc">Posisi Anda di sini</string>
     <string name="marker_police_station">Kantor Polisi</string>
 
-    <string name="url_api">http://192.168.0.103/simlakalantas/index.php/api/</string>
+    <string name="url_api">http://192.168.0.8/simlakalantas/index.php/api/</string>
     <!--<string name="url_api">http://192.168.100.210/simlakalantas/index.php/api/</string>-->
     <string name="endpoint_verifikasi">verifikasi/</string>
     <string name="endpoint_user_register">user_register/</string>
@@ -128,6 +130,7 @@
     <string name="notif_error_connection">Terjadi gangguan saat terhubung ke server. Coba beberapa saat lagi.</string>
     <string name="notif_error_json_response">Terjadi gangguan saat menerima response dari server.</string>
     <string name="notif_content_no_data">Belum ada data pada menu ini.</string>
+    <string name="notif_error_rute">Terjadi kendala saat membuat petunjuk arah. Silakan coba lagi.</string>
 
     <!--Global Redudance-->
     <string name="json_tag_severity">severity</string>

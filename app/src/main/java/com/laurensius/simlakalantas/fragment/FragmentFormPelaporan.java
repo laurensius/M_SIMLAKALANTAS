@@ -347,8 +347,6 @@ public class FragmentFormPelaporan extends Fragment {
                             Log.d(getResources().getString(R.string.debug_jarak) , str_jarak);
                         }
                         polisiTerdekat = floydWarshall(policeStation,jarak);
-                        Log.d("Terdekat adalah ", polisiTerdekat.getPs().getStationName());
-                        Log.d("Dengan Jarak ", String.valueOf(polisiTerdekat.getDistance()));
                         kirimLaporan(
                                 String.valueOf(AppPelapor.userPelapor.getId()),
                                 image,

@@ -9,21 +9,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:background="@mipmap/bg2"
+        android:background="@mipmap/b05"
         android:gravity="center"
         android:orientation="vertical">
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@mipmap/beranda_riwayat"
+            android:layout_margin="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="POLRES KUNINGAN"
+            android:text="LIST LAPORAN / PENGADUAN"
             android:textColor="#FFFFFF"
             android:textSize="16dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Unit Lalu Lintas"
+            android:text="@string/app_name"
             android:textColor="#FFFFFF"
             android:textSize="12dp"/>
     </LinearLayout>
@@ -51,7 +56,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
-            android:text="P E S A N"
+            android:text="Loading . . ."
             android:layout_marginTop="24dp"/>
     </LinearLayout>
 

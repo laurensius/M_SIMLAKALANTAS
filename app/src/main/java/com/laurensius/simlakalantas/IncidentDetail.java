@@ -158,11 +158,6 @@ public class IncidentDetail extends AppCompatActivity {
                                     .setIcon(android.R.drawable.ic_menu_help)
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int whichButton) {
-                                        //      if($this->input->post('incident') == null &&
-                                        //		$this->input->post('chronology') == null &&
-                                        //		$this->input->post('accident_victim') == null &&
-                                        //		$this->input->post('damage') == null &&
-                                        //		$this->input->post('action') == null)
                                             updateStage(laporanInsiden.getId(), 3,officerUser.getId());
                                         }})
                                     .setNegativeButton(android.R.string.no, null).show();

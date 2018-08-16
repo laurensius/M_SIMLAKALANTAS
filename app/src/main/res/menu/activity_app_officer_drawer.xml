@@ -24,23 +24,14 @@
             android:id="@+id/nav_pemberitahuan"
             android:icon="@drawable/ic_nav_pemberitahuan"
             android:title="Pemberitahuan" />
+        <item
+            android:id="@+id/nav_profil"
+            android:icon="@drawable/ic_nav_profil"
+            android:title="Profil" />
+        <item
+            android:id="@+id/nav_keluar"
+            android:icon="@drawable/ic_nav_keluar"
+            android:title="Keluar" />
     </group>
-
-    <item android:title="Data Diri">
-        <menu>
-            <item
-                android:id="@+id/nav_profil"
-                android:icon="@drawable/ic_nav_profil"
-                android:title="Profil" />
-            <item
-                android:id="@+id/nav_ubah_kata_sandi"
-                android:icon="@drawable/ic_nav_ubah_kata_sandi"
-                android:title="Ubah Kata Sandi" />
-            <item
-                android:id="@+id/nav_keluar"
-                android:icon="@drawable/ic_nav_keluar"
-                android:title="Keluar" />
-        </menu>
-    </item>
 
 </menu>

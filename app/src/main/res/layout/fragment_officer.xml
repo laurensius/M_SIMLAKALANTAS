@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EEEEEE"
-    tools:context=".fragment.FragmentPelapor">
+    tools:context=".fragment.FragmentOfficer">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
                 android:textSize="12dp"/>
         </LinearLayout>
 
-        <!--PELAPOR-->
+        <!--Officer-->
         <LinearLayout
             android:id="@+id/ll_pelapor"
             android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                 android:orientation="horizontal"
                 android:layout_weight="2">
                 <LinearLayout
-                    android:id="@+id/pelapor_form_laporan"
+                    android:id="@+id/officer_laporan_masuk"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -64,7 +64,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_margin="10dp"
-                        android:src="@mipmap/beranda_laporan"
+                        android:src="@mipmap/beranda_laporan_masuk"
                         android:layout_gravity="center_horizontal"/>
                     <TextView
                         android:layout_width="match_parent"
@@ -72,16 +72,49 @@
                         android:padding="5dp"
                         android:textAlignment="center"
                         android:background="#FFFFFF"
-                        android:text="Form Laporan"/>
+                        android:text="Laporan Masuk"/>
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/pelapor_riwayat_laporan"
+                    android:id="@+id/officer_laporan_dalam_proses"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical"
+                    android:background="#FFFFFF">
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_margin="10dp"
+                        android:src="@mipmap/beranda_laporan_proses"
+                        android:layout_gravity="center_horizontal"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:textAlignment="center"
+                        android:background="#FFFFFF"
+                        android:text="Laporan Dalam Proses"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_row2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="2">
+                <LinearLayout
+                    android:id="@+id/officer_riwayat_laporan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_marginBottom="5dp"
                     android:orientation="vertical"
                     android:background="#FFFFFF">
@@ -99,41 +132,8 @@
                         android:background="#FFFFFF"
                         android:text="Riwayat Laporan"/>
                 </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_row2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_weight="2">
                 <LinearLayout
-                    android:id="@+id/pelapor_sebaran_polsek"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:orientation="vertical"
-                    android:background="#FFFFFF">
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_margin="10dp"
-                        android:src="@mipmap/beranda_sebaran_polsek"
-                        android:layout_gravity="center_horizontal"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:textAlignment="center"
-                        android:background="#FFFFFF"
-                        android:text="Peta Sebaran Polsek"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/pelapor_pemberitahuan"
+                    android:id="@+id/officer_pemberitahuan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -166,7 +166,7 @@
                 android:orientation="horizontal"
                 android:layout_weight="2">
                 <LinearLayout
-                    android:id="@+id/pelapor_profil"
+                    android:id="@+id/officer_profil"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -191,7 +191,7 @@
                         android:text="Profil"/>
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/pelapor_keluar"
+                    android:id="@+id/officer_keluar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -217,7 +217,7 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-        <!--END OF PELAPOR-->
+        <!--END OF OFFICER-->
 
     </LinearLayout>
 

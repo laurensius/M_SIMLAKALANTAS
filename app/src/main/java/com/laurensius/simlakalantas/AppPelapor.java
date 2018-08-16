@@ -75,7 +75,6 @@ public class AppPelapor extends AppCompatActivity
         navigationView.getMenu().getItem(0).setChecked(true);
         onNavigationItemSelected(navigationView.getMenu().getItem(0));
 
-        getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_beranda));
         FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
         tx.replace(R.id.fl_pelapor, new FragmentPelapor());
         tx.commit();
@@ -200,31 +199,34 @@ public class AppPelapor extends AppCompatActivity
         fragment = null;
         if (id == R.id.nav_beranda) {
             fragment = new FragmentPelapor();
-            getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_beranda));
         } else if (id == R.id.nav_form_pelaporan) {
             fragment = new FragmentFormPelaporan();
-            getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_form_pelaporan));
         } else if (id == R.id.nav_riwayat_laporan) {
             fragment = new FragmentRiwayatLaporan();
-            getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_riwayat_laporan));
         } else if (id == R.id.nav_peta_sebaran_polsek) {
             fragment = new FragmentPetaSebaranPolsek();
-            getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_peta_sebaran_polsek));
         } else if (id == R.id.nav_pemberitahuan) {
             fragment = new FragmentPemberitahuan();
-            getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_pemberitahuan));
         } else if (id == R.id.nav_profil) {
             fragment = new FragmentProfil();
-            getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_profil));
         } else if (id == R.id.nav_keluar) {
-            stopService(new Intent(getBaseContext(), ServiceNotification.class));
-            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getResources().getString(R.string.sharedpreferences), 0);
-            SharedPreferences.Editor editorPreferences = sharedPreferences.edit();
-            editorPreferences.clear();
-            editorPreferences.commit();
-            Intent i = new Intent(AppPelapor.this, Login.class);
-            startActivity(i);
-            finish();
+            new AlertDialog.Builder(AppPelapor.this)
+                    .setTitle(getResources().getString(R.string.confirm_logout_body))
+                    .setMessage(getResources().getString(R.string.confirm_logout_body))
+                    .setIcon(android.R.drawable.ic_menu_help)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            stopService(new Intent(getBaseContext(), ServiceNotification.class));
+                            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getResources().getString(R.string.sharedpreferences), 0);
+                            SharedPreferences.Editor editorPreferences = sharedPreferences.edit();
+                            editorPreferences.clear();
+                            editorPreferences.commit();
+                            Intent i = new Intent(AppPelapor.this, Login.class);
+                            startActivity(i);
+                            finish();
+                        }})
+                    .setNegativeButton(android.R.string.no, null).show();
+
         }
 
         if (fragment != null) {

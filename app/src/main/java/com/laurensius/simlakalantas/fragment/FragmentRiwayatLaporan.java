@@ -111,7 +111,6 @@ public class FragmentRiwayatLaporan extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         pDialog.dismiss();
-                        Log.d("Response : ", response.toString());
                         parseData(response);
                     }
                 },

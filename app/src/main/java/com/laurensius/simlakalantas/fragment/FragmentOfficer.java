@@ -10,16 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.laurensius.simlakalantas.AppOfficer;
 import com.laurensius.simlakalantas.R;
 
 public class FragmentOfficer extends Fragment {
 
-    LinearLayout llPelaporFormLaporan;
-    LinearLayout llPelaporRiwayatLaporan;
-    LinearLayout llPelaporSebaranPolsek;
-    LinearLayout llPelaporPemberitahuan;
-    LinearLayout llPelaporProfil;
-    LinearLayout llPelaporKeluar;
+    LinearLayout llOfficerLaporanMasuk;
+    LinearLayout llOfficerLaporanProses;
+    LinearLayout llOfficerRiwayatLaporan;
+    LinearLayout llOfficerPemberitahuan;
+    LinearLayout llOfficerProfil;
+    LinearLayout llOfficerKeluar;
 
     public FragmentOfficer() {}
 
@@ -31,59 +32,62 @@ public class FragmentOfficer extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View inflaterBeranda = inflater.inflate(R.layout.fragment_pelapor, container, false);
-        llPelaporFormLaporan = (LinearLayout)inflaterBeranda.findViewById(R.id.pelapor_form_laporan);
-        llPelaporRiwayatLaporan = (LinearLayout)inflaterBeranda.findViewById(R.id.pelapor_riwayat_laporan);
-        llPelaporSebaranPolsek = (LinearLayout)inflaterBeranda.findViewById(R.id.pelapor_sebaran_polsek);
-        llPelaporPemberitahuan = (LinearLayout)inflaterBeranda.findViewById(R.id.pelapor_pemberitahuan);
-        llPelaporProfil= (LinearLayout)inflaterBeranda.findViewById(R.id.pelapor_profil);
-        llPelaporKeluar = (LinearLayout)inflaterBeranda.findViewById(R.id.pelapor_keluar);
+        final View inflaterBeranda = inflater.inflate(R.layout.fragment_officer, container, false);
+        llOfficerLaporanMasuk = (LinearLayout)inflaterBeranda.findViewById(R.id.officer_laporan_masuk);
+        llOfficerLaporanProses = (LinearLayout)inflaterBeranda.findViewById(R.id.officer_laporan_dalam_proses);
+        llOfficerRiwayatLaporan = (LinearLayout)inflaterBeranda.findViewById(R.id.officer_riwayat_laporan);
+        llOfficerPemberitahuan = (LinearLayout)inflaterBeranda.findViewById(R.id.officer_pemberitahuan);
+        llOfficerProfil= (LinearLayout)inflaterBeranda.findViewById(R.id.officer_profil);
+        llOfficerKeluar = (LinearLayout)inflaterBeranda.findViewById(R.id.officer_keluar);
         return inflaterBeranda;
     }
 
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
-        llPelaporFormLaporan.setOnClickListener(new View.OnClickListener() {
+        llOfficerLaporanMasuk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AppOfficer.stage = getResources().getString(R.string.stage_waiting);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fl_pelapor, new FragmentFormPelaporan());
+                transaction.replace(R.id.fl_officer, new FragmentLaporanOfficer());
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
-        llPelaporRiwayatLaporan.setOnClickListener(new View.OnClickListener() {
+        llOfficerLaporanProses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AppOfficer.stage = getResources().getString(R.string.stage_process);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fl_pelapor, new FragmentRiwayatLaporan());
+                transaction.replace(R.id.fl_officer, new FragmentLaporanOfficer());
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
-        llPelaporSebaranPolsek.setOnClickListener(new View.OnClickListener() {
+        llOfficerRiwayatLaporan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AppOfficer.stage = getResources().getString(R.string.stage_finish);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fl_pelapor, new FragmentPetaSebaranPolsek());
+                transaction.replace(R.id.fl_officer, new FragmentLaporanOfficer());
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
-        llPelaporPemberitahuan.setOnClickListener(new View.OnClickListener() {
+        llOfficerPemberitahuan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fl_pelapor, new FragmentPemberitahuan());
+                transaction.replace(R.id.fl_officer, new FragmentPemberitahuan());
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
-        llPelaporProfil.setOnClickListener(new View.OnClickListener() {
+        llOfficerProfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fl_pelapor, new FragmentProfil());
+                transaction.replace(R.id.fl_officer, new FragmentProfil());
                 transaction.addToBackStack(null);
                 transaction.commit();
             }

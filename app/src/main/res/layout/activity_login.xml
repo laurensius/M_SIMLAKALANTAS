@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bg2"
+    android:background="@mipmap/b09"
     tools:context=".Login">
 
     <LinearLayout
@@ -96,7 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textColor="#CCCCCC"
+            android:textColor="#555555"
             android:text="Belum punya akun? Klik disini untuk mendaftar"/>
 
     </LinearLayout>

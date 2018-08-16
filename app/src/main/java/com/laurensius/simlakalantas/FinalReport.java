@@ -37,7 +37,7 @@ public class FinalReport extends AppCompatActivity {
     private String TAG;
     private String TAG_REQ_INS;
 
-    private String incidentId;
+    private int incidentId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +48,7 @@ public class FinalReport extends AppCompatActivity {
         TAG_REQ_INS = getResources().getString(R.string.tag_request_f_report_insert);
 
         Intent i = getIntent();
-        incidentId = i.getStringExtra(getResources().getString(R.string.intent_str_id));
+        incidentId = i.getIntExtra(getResources().getString(R.string.intent_str_id),0);
         tvNotifikasi = (TextView)findViewById(R.id.tv_notifikasi);
         etKronologi = (EditText)findViewById(R.id.et_kronologi);
         etKorban = (EditText)findViewById(R.id.et_korban);
@@ -62,12 +62,12 @@ public class FinalReport extends AppCompatActivity {
                 String korban = etKorban.getText().toString();
                 String kerusakan = etKerusakan.getText().toString();
                 String tindakan = etTindakan.getText().toString();
-                validateLogin(kronologi,korban,kerusakan,tindakan);
+                validateKirim(kronologi,korban,kerusakan,tindakan);
             }
         });
     }
 
-    void validateLogin(String kronologi,String korban,String kerusakan,String tindakan){
+    void validateKirim(String kronologi,String korban,String kerusakan,String tindakan){
         if(kronologi.equals(getResources().getString(R.string.param_no_text)) ||
         korban.equals(getResources().getString(R.string.param_no_text)) ||
         kerusakan.equals(getResources().getString(R.string.param_no_text)) ||
@@ -89,11 +89,16 @@ public class FinalReport extends AppCompatActivity {
         pDialog.setMessage(getResources().getString(R.string.progress_loading));
         pDialog.show();
         final Map<String, String> params = new HashMap<String, String>();
-        params.put(getResources().getString(R.string.param_incident), incidentId);
+        params.put(getResources().getString(R.string.param_incident), String.valueOf(incidentId));
         params.put(getResources().getString(R.string.param_chronology), kronologi);
         params.put(getResources().getString(R.string.param_accident_victim), korban);
         params.put(getResources().getString(R.string.param_damage), kerusakan);
         params.put(getResources().getString(R.string.param_action), tindakan);
+        Log.d(getResources().getString(R.string.param_incident) , String.valueOf(incidentId));
+        Log.d(getResources().getString(R.string.param_chronology) , kronologi);
+        Log.d(getResources().getString(R.string.param_accident_victim) , korban);
+        Log.d(getResources().getString(R.string.param_damage) , kerusakan);
+        Log.d(getResources().getString(R.string.param_action), tindakan);
         JSONObject parameter = new JSONObject(params);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url_api.concat(report_insert), parameter,
                 new Response.Listener<JSONObject>() {

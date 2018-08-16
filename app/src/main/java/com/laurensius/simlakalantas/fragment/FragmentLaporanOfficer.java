@@ -117,7 +117,6 @@ public class FragmentLaporanOfficer extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         pDialog.dismiss();
-                        Log.d("Response : ", response.toString());
                         parseData(response);
                     }
                 },
@@ -129,7 +128,6 @@ public class FragmentLaporanOfficer extends Fragment {
                         llContent.setVisibility(View.GONE);
                         ivNoContent.setImageResource(R.mipmap.img_volley_err);
                         tvNoContent.setText(getResources().getString(R.string.notif_error_connection));
-                        //Log.d(getResources().getString(R.string.notif_error_json_response), error.getMessage().toString());
                     }
                 });
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_req_incident_select_by_station_stage);

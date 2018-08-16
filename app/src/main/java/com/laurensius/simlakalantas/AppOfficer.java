@@ -80,7 +80,6 @@ public class AppOfficer extends AppCompatActivity
         navigationView.getMenu().getItem(0).setChecked(true);
         onNavigationItemSelected(navigationView.getMenu().getItem(0));
 
-        getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_beranda));
         FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
         tx.replace(R.id.fl_officer, new FragmentOfficer());
         tx.commit();
@@ -207,34 +206,36 @@ public class AppOfficer extends AppCompatActivity
         fragment = null;
         if (id == R.id.nav_beranda) {
             fragment = new FragmentOfficer();
-            getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_beranda));
         } else if (id == R.id.nav_laporan_masuk) {
             stage = waiting;
             fragment = new FragmentLaporanOfficer();
-            getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_laporan_masuk));
         } else if (id == R.id.nav_laporan_proses) {
             stage = onprocess;
             fragment = new FragmentLaporanOfficer();
-            getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_laporan_proses));
         } else if (id == R.id.nav_riwayat_laporan) {
             stage = finish;
             fragment = new FragmentLaporanOfficer();
-            getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_riwayat_laporan));
         } else if (id == R.id.nav_pemberitahuan) {
             fragment = new FragmentPemberitahuan();
-            getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_pemberitahuan));
         } else if (id == R.id.nav_profil) {
             fragment = new FragmentProfil();
-            getSupportActionBar().setTitle(getResources().getString(R.string.titlebar_profil));
         } else if (id == R.id.nav_keluar) {
-            stopService(new Intent(getBaseContext(), ServiceNotification.class));
-            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getResources().getString(R.string.sharedpreferences), 0);
-            SharedPreferences.Editor editorPreferences = sharedPreferences.edit();
-            editorPreferences.clear();
-            editorPreferences.commit();
-            Intent i = new Intent(AppOfficer.this, Login.class);
-            startActivity(i);
-            finish();
+            new AlertDialog.Builder(AppOfficer.this)
+                    .setTitle(getResources().getString(R.string.confirm_logout_body))
+                    .setMessage(getResources().getString(R.string.confirm_logout_body))
+                    .setIcon(android.R.drawable.ic_menu_help)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            stopService(new Intent(getBaseContext(), ServiceNotification.class));
+                            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getResources().getString(R.string.sharedpreferences), 0);
+                            SharedPreferences.Editor editorPreferences = sharedPreferences.edit();
+                            editorPreferences.clear();
+                            editorPreferences.commit();
+                            Intent i = new Intent(AppOfficer.this, Login.class);
+                            startActivity(i);
+                            finish();
+                        }})
+                    .setNegativeButton(android.R.string.no, null).show();
         }
 
         if (fragment != null) {

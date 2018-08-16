@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.routing.OSRMRoadManager;
@@ -41,6 +42,7 @@ public class DirectionMap extends AppCompatActivity {
     private LocationManager locationManager;
     private LocationListener listener;
     private RoadManager roadManager;
+    private Road road;
 
     public static double lat;
     public static double lon;
@@ -57,6 +59,13 @@ public class DirectionMap extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_direction_map);
         mvDirection = (MapView)findViewById(R.id.mv_direction);
+        mvDirection.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                new AsyncDirection().execute();
+                return false;
+            }
+        });
         mvDirection.setTileSource(TileSourceFactory.MAPNIK);
         mvDirection.setBuiltInZoomControls(true);
         mvDirection.setMultiTouchControls(true);
@@ -83,8 +92,6 @@ public class DirectionMap extends AppCompatActivity {
             public void onLocationChanged(Location location) {
                 lat = location.getLatitude();
                 lon = location.getLongitude();
-                Log.d(getResources().getString(R.string.debug_lat) , String.valueOf(lat));
-                Log.d(getResources().getString(R.string.debug_lon) , String.valueOf(lon));
                 removeUserMarker();
                 setUserMarker(lat,lon);
             }
@@ -107,11 +114,8 @@ public class DirectionMap extends AppCompatActivity {
         setCenter(IncidentDetail.policeStation.getLatitude() , IncidentDetail.policeStation.getLongitude());
         setStationMarker( IncidentDetail.policeStation.getLatitude() , IncidentDetail.policeStation.getLongitude());
         setIncidentMarker( Double.parseDouble(IncidentDetail.laporanInsiden.getLatitude()), Double.parseDouble( IncidentDetail.laporanInsiden.getLongitude()));
-
         configureGPS();
         configureStorage();
-
-
         new AsyncDirection().execute();
     }
 
@@ -180,7 +184,7 @@ public class DirectionMap extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(DirectionMap.this);
-            pDialog.setMessage("Mohon menunggu...");
+            pDialog.setMessage(getResources().getString(R.string.progress_loading));
             pDialog.setCancelable(false);
             pDialog.show();
             startPoint = new GeoPoint(IncidentDetail.policeStation.getLatitude() , IncidentDetail.policeStation.getLongitude());
@@ -192,9 +196,8 @@ public class DirectionMap extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            Log.d("DO IN BG", "Do in background");
             roadManager = new OSRMRoadManager(getApplicationContext());
-            Road road = roadManager.getRoad(waypoints);
+            road = roadManager.getRoad(waypoints);
             roadOverlay = RoadManager.buildRoadOverlay(road);
             return null;
         }
@@ -202,11 +205,22 @@ public class DirectionMap extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            if (pDialog.isShowing()) {
-                pDialog.dismiss();
-            }
-            mvDirection.getOverlays().add(roadOverlay);
-            mvDirection.invalidate();
+            Thread timer = new Thread() {
+                public void run() {
+                    try {
+                        sleep(10000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (pDialog.isShowing()) {
+                            pDialog.dismiss();
+                        }
+                        mvDirection.getOverlays().add(roadOverlay);
+                        mvDirection.invalidate();
+                    }
+                }
+            };
+            timer.start();
         }
     }
 

@@ -3,6 +3,7 @@ package com.laurensius.simlakalantas.fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,12 +16,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.laurensius.simlakalantas.AppOfficer;
 import com.laurensius.simlakalantas.AppPelapor;
 import com.laurensius.simlakalantas.IncidentDetail;
 import com.laurensius.simlakalantas.R;
@@ -28,6 +29,7 @@ import com.laurensius.simlakalantas.adapter.AdapterNotif;
 import com.laurensius.simlakalantas.appcontroller.AppController;
 import com.laurensius.simlakalantas.listener.NotifListener;
 import com.laurensius.simlakalantas.model.Notif;
+import com.laurensius.simlakalantas.model.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +48,8 @@ public class FragmentPemberitahuan extends Fragment {
     private LinearLayout llContent, llNoContent;
     private ImageView ivNoContent;
     private TextView tvNoContent;
+
+    User u;
     
     public FragmentPemberitahuan() {}
 
@@ -68,6 +72,30 @@ public class FragmentPemberitahuan extends Fragment {
 
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences;
+        SharedPreferences.Editor editorPreferences;
+        sharedPreferences = getActivity().getSharedPreferences(getResources().getString(R.string.sharedpreferences), 0);
+        editorPreferences = sharedPreferences.edit();
+        String sharedpref_data_user = sharedPreferences.getString(getResources().getString(R.string.sharedpref_data_user),null);
+        if(sharedpref_data_user != null){
+            try{
+                JSONArray jsonArray = new JSONArray(sharedpref_data_user);
+                u = new User(
+                        Integer.parseInt(jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_id))),
+                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_username)),
+                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_password)),
+                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_full_name)),
+                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_address)),
+                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_phone)),
+                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_email)),
+                        Boolean.parseBoolean(jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_is_officer))),
+                        Integer.parseInt(jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_station))),
+                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_last_login)));
+            }catch (JSONException e){
+
+            }
+        }
+
         llNoContent.setVisibility(View.GONE);
         llContent.setVisibility(View.VISIBLE);
         rvNotif.setHasFixedSize(true);
@@ -82,11 +110,21 @@ public class FragmentPemberitahuan extends Fragment {
                 Notif notif = adapterNotif.getItem(childAdapterPosition);
                 Intent i = new Intent(getActivity(), IncidentDetail.class);
                 i.putExtra(getResources().getString(R.string.intent_str_id),String.valueOf(notif.getIncident()) );
-                i.putExtra(getResources().getString(R.string.intent_str_type),getResources().getString(R.string.intent_str_pelapor));
+                if(u.getIs_officer()){
+                    i.putExtra(getResources().getString(R.string.intent_str_type),getResources().getString(R.string.intent_str_officer));
+                }else{
+                    i.putExtra(getResources().getString(R.string.intent_str_type),getResources().getString(R.string.intent_str_pelapor));
+                }
                 startActivity(i);
             }
         }));
-        loadPemberitahuan();
+
+        if(u.getIs_officer()){
+            loadPemberitahuan(getResources().getString(R.string.json_tag_station), String.valueOf(AppOfficer.userOfficer.getStation()));
+        }else{
+            loadPemberitahuan(getResources().getString(R.string.json_tag_aim),String.valueOf(AppPelapor.userPelapor.getId()));
+        }
+
     }
 
     @Override
@@ -99,13 +137,13 @@ public class FragmentPemberitahuan extends Fragment {
         super.onDetach();
     }
 
-    public void loadPemberitahuan(){
+    public void loadPemberitahuan(String agent, String id){
         String tag_req_incident_select_by_sender = getResources().getString(R.string.tag_request_incident_by_sender);
         String url = getResources().getString(R.string.url_api)
                 .concat(getResources().getString(R.string.endpoint_notif_select_recent))
-                .concat(getResources().getString(R.string.json_tag_aim))
+                .concat(agent)
                 .concat(getResources().getString(R.string.endpoint_slash))
-                .concat(String.valueOf(AppPelapor.userPelapor.getId()))
+                .concat(id)
                 .concat(getResources().getString(R.string.endpoint_slash))
                 .concat(String.valueOf(20))
                 .concat(getResources().getString(R.string.endpoint_slash));
