@@ -31,7 +31,6 @@ import android.widget.TextView;
 
 import com.laurensius.simlakalantas.fragment.FragmentLaporanOfficer;
 import com.laurensius.simlakalantas.fragment.FragmentOfficer;
-import com.laurensius.simlakalantas.fragment.FragmentPelapor;
 import com.laurensius.simlakalantas.fragment.FragmentPemberitahuan;
 import com.laurensius.simlakalantas.fragment.FragmentProfil;
 import com.laurensius.simlakalantas.model.User;
@@ -66,51 +65,46 @@ public class AppOfficer extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_officer);
+
+        loadSharedPreferences();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
         onNavigationItemSelected(navigationView.getMenu().getItem(0));
-
-        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
-        tx.replace(R.id.fl_officer, new FragmentOfficer());
-        tx.commit();
-
-        sharedPreferences = getSharedPreferences(getResources().getString(R.string.sharedpreferences), 0);
-        editorPreferences = sharedPreferences.edit();
-        String sharedpref_data_user = sharedPreferences.getString(getResources().getString(R.string.sharedpref_data_user),null);
-        if(sharedpref_data_user != null){
-            try{
-                JSONArray jsonArray = new JSONArray(sharedpref_data_user);
-                userOfficer = new User(
-                        Integer.parseInt(jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_id))),
-                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_username)),
-                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_password)),
-                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_full_name)),
-                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_address)),
-                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_phone)),
-                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_email)),
-                        Boolean.parseBoolean(jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_is_officer))),
-                        Integer.parseInt(jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_station))),
-                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_last_login)));
-            }catch (JSONException e){
-
-            }
-        }
-
         View header = navigationView.getHeaderView(0);
         TextView tvHeaderUsername = (TextView)header.findViewById(R.id.tv_header_username);
         TextView tvHeaderEmail = (TextView)header.findViewById(R.id.tv_header_email);
         tvHeaderUsername.setText(userOfficer.getFull_name());
         tvHeaderEmail.setText(userOfficer.getEmail());
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                loadSharedPreferences();
+                View header = navigationView.getHeaderView(0);
+                TextView tvHeaderUsername = (TextView)header.findViewById(R.id.tv_header_username);
+                TextView tvHeaderEmail = (TextView)header.findViewById(R.id.tv_header_email);
+                tvHeaderUsername.setText(userOfficer.getFull_name());
+                tvHeaderEmail.setText(userOfficer.getEmail());
+            }
+        };
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+        tx.replace(R.id.fl_officer, new FragmentOfficer());
+        tx.commit();
 
         dialBox = createDialogBox();
 
@@ -221,7 +215,7 @@ public class AppOfficer extends AppCompatActivity
             fragment = new FragmentProfil();
         } else if (id == R.id.nav_keluar) {
             new AlertDialog.Builder(AppOfficer.this)
-                    .setTitle(getResources().getString(R.string.confirm_logout_body))
+                    .setTitle(getResources().getString(R.string.confirm_logout_title))
                     .setMessage(getResources().getString(R.string.confirm_logout_body))
                     .setIcon(android.R.drawable.ic_menu_help)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -269,6 +263,28 @@ public class AppOfficer extends AppCompatActivity
                 Log.v(getResources().getString(R.string.debug_permission), getResources().getString(R.string.debug_permisssion_storage_revoke));
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
+        }
+    }
+
+    void loadSharedPreferences(){
+        sharedPreferences = getSharedPreferences(getResources().getString(R.string.sharedpreferences), 0);
+        editorPreferences = sharedPreferences.edit();
+        String sharedpref_data_user = sharedPreferences.getString(getResources().getString(R.string.sharedpref_data_user),null);
+        if(sharedpref_data_user != null){
+            try{
+                JSONArray jsonArray = new JSONArray(sharedpref_data_user);
+                userOfficer = new User(
+                        Integer.parseInt(jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_id))),
+                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_username)),
+                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_password)),
+                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_full_name)),
+                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_address)),
+                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_phone)),
+                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_email)),
+                        Boolean.parseBoolean(jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_is_officer))),
+                        Integer.parseInt(jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_station))),
+                        jsonArray.getJSONObject(0).getString(getResources().getString(R.string.json_tag_last_login)));
+            }catch (JSONException e){ }
         }
     }
 

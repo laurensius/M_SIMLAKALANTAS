@@ -3,6 +3,7 @@ package com.laurensius.simlakalantas.fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,7 +22,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.laurensius.simlakalantas.AppPelapor;
+import com.laurensius.simlakalantas.Login;
 import com.laurensius.simlakalantas.R;
+import com.laurensius.simlakalantas.ServiceNotification;
 import com.laurensius.simlakalantas.appcontroller.AppController;
 import com.laurensius.simlakalantas.model.User;
 
@@ -33,6 +37,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FragmentProfil extends Fragment {
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editorPreferences;
 
     private TextView tvNotifikasi;
     private EditText etNamaPengguna, etKataSandi, etNamaLengkap, etAlamat, etTelepon, etEmail;
@@ -64,8 +71,6 @@ public class FragmentProfil extends Fragment {
 
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
-        SharedPreferences sharedPreferences;
-        SharedPreferences.Editor editorPreferences;
         sharedPreferences = getActivity().getSharedPreferences(getResources().getString(R.string.sharedpreferences), 0);
         editorPreferences = sharedPreferences.edit();
         String sharedpref_data_user = sharedPreferences.getString(getResources().getString(R.string.sharedpref_data_user),null);
@@ -190,6 +195,9 @@ public class FragmentProfil extends Fragment {
                 tvNotifikasi.setVisibility(View.VISIBLE);
                 tvNotifikasi.setText(message);
                 tvNotifikasi.setBackgroundColor(getResources().getColor(R.color.severitySuccess));
+                editorPreferences.putString(getResources().getString(R.string.sharedpref_data_user),data.toString());
+                editorPreferences.commit();
+
             }else
             if(severity.equals(getResources().getString(R.string.severity_warning))){
                 tvNotifikasi.setVisibility(View.VISIBLE);
