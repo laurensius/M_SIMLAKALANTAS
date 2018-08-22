@@ -55,7 +55,7 @@
                 android:inputType="text"
                 android:textColor="#999999"
                 android:textColorHint="#CCCCCC"
-                android:hint="Nama Penguna"/>
+                android:hint="Nama Penguna (*wajib diisi)"/>
         </LinearLayout>
 
         <LinearLayout
@@ -79,7 +79,7 @@
                 android:inputType="textPassword"
                 android:textColor="#999999"
                 android:textColorHint="#CCCCCC"
-                android:hint="Kata Sandi"/>
+                android:hint="Kata Sandi (*wajib diisi)"/>
         </LinearLayout>
 
         <LinearLayout
@@ -103,7 +103,7 @@
                 android:inputType="textPersonName"
                 android:textColor="#999999"
                 android:textColorHint="#CCCCCC"
-                android:hint="Nama Lengkap"/>
+                android:hint="Nama Lengkap (*wajib diisi)"/>
         </LinearLayout>
 
         <LinearLayout
@@ -127,7 +127,7 @@
                 android:inputType="textPersonName"
                 android:textColor="#999999"
                 android:textColorHint="#CCCCCC"
-                android:hint="Alamat Tinggal"/>
+                android:hint="Alamat Tinggal (*wajib diisi)"/>
         </LinearLayout>
 
         <LinearLayout
@@ -151,7 +151,7 @@
                 android:inputType="phone"
                 android:textColor="#999999"
                 android:textColorHint="#CCCCCC"
-                android:hint="Nomor HP"/>
+                android:hint="Nomor HP (*wajib diisi)"/>
         </LinearLayout>
 
         <LinearLayout
@@ -175,7 +175,7 @@
                 android:inputType="textEmailAddress"
                 android:textColor="#999999"
                 android:textColorHint="#CCCCCC"
-                android:hint="Email"/>
+                android:hint="Email (*wajib diisi)"/>
         </LinearLayout>
 
         <Button

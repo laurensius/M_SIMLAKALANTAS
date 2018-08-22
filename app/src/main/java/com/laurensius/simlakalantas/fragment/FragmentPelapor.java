@@ -1,16 +1,23 @@
 package com.laurensius.simlakalantas.fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.laurensius.simlakalantas.AppPelapor;
+import com.laurensius.simlakalantas.Login;
 import com.laurensius.simlakalantas.R;
+import com.laurensius.simlakalantas.ServiceNotification;
 
 public class FragmentPelapor extends Fragment {
 
@@ -86,6 +93,27 @@ public class FragmentPelapor extends Fragment {
                 transaction.replace(R.id.fl_pelapor, new FragmentProfil());
                 transaction.addToBackStack(null);
                 transaction.commit();
+            }
+        });
+        llPelaporKeluar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(getActivity())
+                        .setTitle(getResources().getString(R.string.confirm_logout_title))
+                        .setMessage(getResources().getString(R.string.confirm_logout_body))
+                        .setIcon(android.R.drawable.ic_menu_help)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                getActivity().stopService(new Intent(getActivity().getBaseContext(), ServiceNotification.class));
+                                SharedPreferences sharedPreferences = getActivity().getApplicationContext().getSharedPreferences(getResources().getString(R.string.sharedpreferences), 0);
+                                SharedPreferences.Editor editorPreferences = sharedPreferences.edit();
+                                editorPreferences.clear();
+                                editorPreferences.commit();
+                                Intent i = new Intent(getActivity(), Login.class);
+                                startActivity(i);
+                                getActivity().finish();
+                            }})
+                        .setNegativeButton(android.R.string.no, null).show();
             }
         });
     }

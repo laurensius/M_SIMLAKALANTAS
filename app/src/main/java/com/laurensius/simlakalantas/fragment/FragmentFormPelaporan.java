@@ -146,17 +146,17 @@ public class FragmentFormPelaporan extends Fragment {
         AlertDialog.Builder pictureDialog = new AlertDialog.Builder(getActivity());
         pictureDialog.setTitle(getResources().getString(R.string.image_selector_title));
         String[] pictureDialogItems = {
-                getResources().getString(R.string.image_selector_gallery),
+//                getResources().getString(R.string.image_selector_gallery),
                 getResources().getString(R.string.image_selector_camera) };
         pictureDialog.setItems(pictureDialogItems,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
+//                            case 0:
+//                                choosePhotoFromGallary();
+//                                break;
                             case 0:
-                                choosePhotoFromGallary();
-                                break;
-                            case 1:
                                 takePhotoFromCamera();
                                 break;
                         }
@@ -165,11 +165,11 @@ public class FragmentFormPelaporan extends Fragment {
         pictureDialog.show();
     }
 
-    public void choosePhotoFromGallary() {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(galleryIntent, GALLERY);
-    }
+//    public void choosePhotoFromGallary() {
+//        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+//                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        startActivityForResult(galleryIntent, GALLERY);
+//    }
 
     private void takePhotoFromCamera() {
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);

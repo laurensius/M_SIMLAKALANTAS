@@ -197,9 +197,11 @@ public class AppPelapor extends AppCompatActivity
             fragment = new FragmentFormPelaporan();
         } else if (id == R.id.nav_riwayat_laporan) {
             fragment = new FragmentRiwayatLaporan();
-        } else if (id == R.id.nav_peta_sebaran_polsek) {
-            fragment = new FragmentPetaSebaranPolsek();
-        } else if (id == R.id.nav_pemberitahuan) {
+        }
+//        else if (id == R.id.nav_peta_sebaran_polsek) {
+//            fragment = new FragmentPetaSebaranPolsek();
+//        }
+        else if (id == R.id.nav_pemberitahuan) {
             fragment = new FragmentPemberitahuan();
         } else if (id == R.id.nav_profil) {
             fragment = new FragmentProfil();

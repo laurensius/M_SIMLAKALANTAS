@@ -81,7 +81,6 @@ public class FragmentLaporanOfficer extends Fragment {
             @Override
             public void onItemClick(View childVew, int childAdapterPosition) {
                 Incident incident = adapterIncident.getItem(childAdapterPosition);
-                Toast.makeText(getActivity(),incident.getDescription(),Toast.LENGTH_LONG).show();
                 Intent i = new Intent(getActivity(), IncidentDetail.class);
                 i.putExtra(getResources().getString(R.string.intent_str_id),String.valueOf(incident.getId()) );
                 i.putExtra(getResources().getString(R.string.intent_str_type),getResources().getString(R.string.intent_str_officer));

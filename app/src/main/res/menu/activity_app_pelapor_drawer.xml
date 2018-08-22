@@ -16,10 +16,10 @@
             android:id="@+id/nav_riwayat_laporan"
             android:icon="@drawable/ic_nav_riwayat_pelaporan"
             android:title="Riwayat Laporan" />
-        <item
-            android:id="@+id/nav_peta_sebaran_polsek"
-            android:icon="@drawable/ic_nav_peta_sebaran_polsek"
-            android:title="Peta Sebaran Polsek" />
+        <!--<item-->
+            <!--android:id="@+id/nav_peta_sebaran_polsek"-->
+            <!--android:icon="@drawable/ic_nav_peta_sebaran_polsek"-->
+            <!--android:title="Peta Sebaran Polsek" />-->
         <item
             android:id="@+id/nav_pemberitahuan"
             android:icon="@drawable/ic_nav_pemberitahuan"
