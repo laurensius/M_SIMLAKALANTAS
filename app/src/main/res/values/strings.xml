@@ -82,6 +82,7 @@
     <string name="param_accident_victim">accident_victim</string>
     <string name="param_damage">damage</string>
     <string name="param_action">action</string>
+    <string name="param_kitas">kitas</string>
 
     <string name="intent_str_id">id</string>
     <string name="intent_str_type">type</string>
@@ -125,12 +126,15 @@
     <string name="tag_request_incident_by_station_stage">TAG REQUEST INCIDENT BY STATION STAGE</string>
     <string name="tag_request_update_profil">TAG REQUEST UPDATE PROFIL</string>
     <string name="tag_request_f_report_insert">TAG REQUEST F_REPORT INSERT</string>
+    <string name="tag_req_notif_update_open">TAG REQUEST NOTIF UPDATE OPEN</string>
+
 
     <string name="notif_login_form_not_blank">Silakan isi bidang yang masih kosong.</string>
     <string name="notif_error_connection">Terjadi gangguan saat terhubung ke server. Coba beberapa saat lagi.</string>
     <string name="notif_error_json_response">Terjadi gangguan saat menerima response dari server.</string>
     <string name="notif_content_no_data">Belum ada data pada menu ini.</string>
     <string name="notif_error_rute">Terjadi kendala saat membuat petunjuk arah. Silakan coba lagi.</string>
+
 
     <!--Global Redudance-->
     <string name="json_tag_severity">severity</string>
@@ -167,6 +171,7 @@
     <string name="json_tag_aim">aim</string>
     <string name="json_tag_content">content</string>
     <string name="json_tag_datetime">datetime</string>
+    <string name="json_tag_isopen">is_open</string>
 
     <string name="severity_success">success</string>
     <string name="severity_warning">warning</string>

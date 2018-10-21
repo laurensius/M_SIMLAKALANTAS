@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -95,9 +96,9 @@ public class FragmentPemberitahuan extends Fragment {
 
             }
         }
-
         llNoContent.setVisibility(View.GONE);
         llContent.setVisibility(View.VISIBLE);
+        rvNotif.setAdapter(null);
         rvNotif.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         rvNotif.setLayoutManager(mLayoutManager);
@@ -108,14 +109,9 @@ public class FragmentPemberitahuan extends Fragment {
             @Override
             public void onItemClick(View childVew, int childAdapterPosition) {
                 Notif notif = adapterNotif.getItem(childAdapterPosition);
-                Intent i = new Intent(getActivity(), IncidentDetail.class);
-                i.putExtra(getResources().getString(R.string.intent_str_id),String.valueOf(notif.getIncident()) );
-                if(u.getIs_officer()){
-                    i.putExtra(getResources().getString(R.string.intent_str_type),getResources().getString(R.string.intent_str_officer));
-                }else{
-                    i.putExtra(getResources().getString(R.string.intent_str_type),getResources().getString(R.string.intent_str_pelapor));
-                }
-                startActivity(i);
+                int id_notif = notif.getId();
+                int id_incident = notif.getIncident();
+                updateNotifOpen(String.valueOf(id_notif),String.valueOf(id_incident));
             }
         }));
 
@@ -135,6 +131,54 @@ public class FragmentPemberitahuan extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    public void updateNotifOpen(String id_notif, final String id_incident){
+        String tag_req_notif_update_open= getResources().getString(R.string.tag_request_incident_by_sender);
+        String url = getResources().getString(R.string.url_api)
+                .concat(getResources().getString(R.string.endpoint_notif_select_recent))
+                .concat(id_notif)
+                .concat(getResources().getString(R.string.endpoint_slash));
+        final ProgressDialog pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage(getResources().getString(R.string.progress_loading));
+        pDialog.show();
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        pDialog.dismiss();
+
+                        try{
+                            if(response != null){
+                                String severity = response.getString(getResources().getString(R.string.json_tag_severity));
+                                if(severity.equals(getResources().getString(R.string.severity_success))){
+                                    Intent i = new Intent(getActivity(), IncidentDetail.class);
+                                    i.putExtra(getResources().getString(R.string.intent_str_id),id_incident);
+                                    if(u.getIs_officer()){
+                                        i.putExtra(getResources().getString(R.string.intent_str_type),getResources().getString(R.string.intent_str_officer));
+                                    }else{
+                                        i.putExtra(getResources().getString(R.string.intent_str_type),getResources().getString(R.string.intent_str_pelapor));
+                                    }
+                                    startActivity(i);
+                                }else{
+                                    Toast.makeText(getActivity(),"Terjadi gangguan mengambil detail notifikasi",Toast.LENGTH_LONG).show();
+                                }
+                            }else{
+                                Toast.makeText(getActivity(),"Terjadi gangguan mengambil detail notifikasi",Toast.LENGTH_LONG).show();
+                            }
+                        }catch(JSONException e){
+                            Toast.makeText(getActivity(),"Terjadi gangguan mengambil detail notifikasi",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        pDialog.dismiss();
+                        Toast.makeText(getActivity(),"Terjadi gangguan mengambil detail notifikasi",Toast.LENGTH_LONG).show();
+                    }
+                });
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_req_notif_update_open);
     }
 
     public void loadPemberitahuan(String agent, String id){
@@ -186,7 +230,8 @@ public class FragmentPemberitahuan extends Fragment {
                                     Integer.parseInt(data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_incident))),
                                     Integer.parseInt(data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_station))),
                                     data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_content)),
-                                    data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_datetime))
+                                    data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_datetime)),
+                                    data.getJSONObject(x).getString(getResources().getString(R.string.json_tag_isopen))
                                     ));
                         }
                     }else{

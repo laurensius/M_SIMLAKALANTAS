@@ -2,6 +2,7 @@ package com.laurensius.simlakalantas.adapter;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
@@ -33,6 +34,11 @@ public class AdapterNotif extends RecyclerView.Adapter<AdapterNotif.HolderNotif>
     public void onBindViewHolder(HolderNotif holderNotif,int i){
         holderNotif.tvContent.setText(listNotif.get(i).getContent());
         holderNotif.tvDatetime.setText(listNotif.get(i).getDatetime());
+        if(listNotif.get(i).getIs_open().equals("0")){
+            holderNotif.cvNotif.setCardBackgroundColor(Color.parseColor("#CCCCCC"));
+        }else{
+            holderNotif.cvNotif.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+        }
     }
 
     @Override

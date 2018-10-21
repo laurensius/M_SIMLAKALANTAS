@@ -159,7 +159,7 @@
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
             android:orientation="horizontal"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:gravity="bottom">
             <ImageView
                 android:layout_width="24dp"
@@ -177,6 +177,25 @@
                 android:textColorHint="#CCCCCC"
                 android:hint="Email (*wajib diisi)"/>
         </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#666666"
+            android:background="#EEEEEE"
+            android:padding="5dp"
+            android:text="Lampiran Kartu Indentitas (*wajib diisi)"/>
+        <ImageView
+            android:id="@+id/iv_kitas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="90dp"
+            android:background="#EEEEEE"
+            android:padding="5dp"
+            android:src="@drawable/icon_add_photo"
+            android:layout_marginBottom="10dp"/>
+
 
         <Button
             android:id="@+id/btn_daftar"
