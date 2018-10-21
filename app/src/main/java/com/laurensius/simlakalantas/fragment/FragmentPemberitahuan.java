@@ -111,7 +111,18 @@ public class FragmentPemberitahuan extends Fragment {
                 Notif notif = adapterNotif.getItem(childAdapterPosition);
                 int id_notif = notif.getId();
                 int id_incident = notif.getIncident();
-                updateNotifOpen(String.valueOf(id_notif),String.valueOf(id_incident));
+                if(notif.getIs_open().equals("0")){
+                    updateNotifOpen(String.valueOf(id_notif),String.valueOf(id_incident));
+                }else{
+                    Intent i = new Intent(getActivity(), IncidentDetail.class);
+                    i.putExtra(getResources().getString(R.string.intent_str_id),String.valueOf(id_incident));
+                    if(u.getIs_officer()){
+                        i.putExtra(getResources().getString(R.string.intent_str_type),getResources().getString(R.string.intent_str_officer));
+                    }else{
+                        i.putExtra(getResources().getString(R.string.intent_str_type),getResources().getString(R.string.intent_str_pelapor));
+                    }
+                    startActivity(i);
+                }
             }
         }));
 
@@ -136,7 +147,7 @@ public class FragmentPemberitahuan extends Fragment {
     public void updateNotifOpen(String id_notif, final String id_incident){
         String tag_req_notif_update_open= getResources().getString(R.string.tag_request_incident_by_sender);
         String url = getResources().getString(R.string.url_api)
-                .concat(getResources().getString(R.string.endpoint_notif_select_recent))
+                .concat(getResources().getString(R.string.endpoint_notif_update_open))
                 .concat(id_notif)
                 .concat(getResources().getString(R.string.endpoint_slash));
         final ProgressDialog pDialog = new ProgressDialog(getActivity());

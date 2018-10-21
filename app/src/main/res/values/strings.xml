@@ -110,6 +110,7 @@
     <string name="endpoint_notif_select_recent">notif_select_recent/</string>
     <string name="endpoint_profil_update">profil_update/</string>
     <string name="endpoint_report_insert">report_insert/</string>
+    <string name="endpoint_notif_update_open">notif_update_open/</string>
     <string name="endpoint_slash">/</string>
 
     <string name="progress_cari_kantor_polisi_terdekat">Mencari kantor polisi terdekat . . .</string>
